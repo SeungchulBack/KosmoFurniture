@@ -1,0 +1,8 @@
+server:
+  port: 8484
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/kosmo_furniture
+    username: root
+    password: 1234
