@@ -4,5 +4,16 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/kosmo_furniture
-    username: root
+    username: kosmo_furniture
     password: 1234
+
+
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+  thymeleaf:
+    view-names: thymeleaf/*
+mybatis:
+  type-aliases-package: com.kosmo.kosmofurniture.domain
