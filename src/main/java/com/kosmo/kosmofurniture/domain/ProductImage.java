@@ -4,9 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class OrderProduct {
+public class ProductImage {
 
-    private Integer quantity;
+    private Long productImageId;
     private Long productId;
-    private Long orderId;
+    private String originalFileName;
+    private String dbFileName;
 }

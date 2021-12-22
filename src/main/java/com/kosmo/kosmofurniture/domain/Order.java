@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 public class Order {
 
     private Long orderId;
-    private LocalDateTime orderDate;
-    private String order_status;
+    private String orderStatus;
     private Long memberId;
+    private Long totalPrice;
+    private String trackingNo;
     private LocalDateTime createdAt;
 }

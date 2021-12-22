@@ -7,7 +7,7 @@ spring:
     username: kosmo_furniture
     password: 1234
 
-
+#  Spring boot에서 JSP사용하기위한 설정 시작
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -15,5 +15,24 @@ spring:
 
   thymeleaf:
     view-names: thymeleaf/*
+#  Spring boot에서 JSP사용하기위한 설정 끝
+
+#  파일업로드 사이즈 설정
+  servlet:
+    multipart:
+      maxFileSize: 100MB
+      maxRequestSize: 100MB
+
+  devtools:
+    livereload:
+      enabled: true
+
 mybatis:
   type-aliases-package: com.kosmo.kosmofurniture.domain
+  configuration: # member_id의 컬럼을 memberId로 자동으로 변환
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com.kosmo.kosmofurniture : debug
+    com.kosmo.kosmofurniture.mapper : warn

@@ -3,6 +3,8 @@ package com.kosmo.kosmofurniture.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter @Setter
 public class Product {
 
@@ -12,4 +14,5 @@ public class Product {
     private Long price;
     private String category;
     private Integer stock;
+    private LocalDateTime createdAt;
 }

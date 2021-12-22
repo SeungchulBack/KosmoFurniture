@@ -1,17 +1,15 @@
 package com.kosmo.kosmofurniture.mapper;
 
 import com.kosmo.kosmofurniture.domain.Member;
+import com.kosmo.kosmofurniture.domain.Order;
+import com.kosmo.kosmofurniture.domain.Product;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-
 @Mapper
-public interface MemberMapper {
+public interface OrderMapper {
 
-    Long save(Member member);
-    List<Member> findAll();
-    Member findById(Long memberId);
-    Member findBySsn(String ssn);
+    Long save(Order order);
+    Order findById(Long orderId);
     void deleteAll();
     void setAutoIncToZero();
 }
