@@ -1,5 +1,8 @@
 package com.kosmo.kosmofurniture.config;
 
+import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -22,6 +25,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         /* files/817718b05f04e528f79589b038eb5934.png 접속하면 파일볼수있게 URI주소를 추가한다 */
         registry.addResourceHandler("/files/**").addResourceLocations("file:files/");
+    }
+
+    /* XSS 필터추가설정 */
+    @Bean
+    public FilterRegistrationBean<XssEscapeServletFilter> filterRegistrationBean() {
+        FilterRegistrationBean<XssEscapeServletFilter> filterRegistration = new FilterRegistrationBean<>();
+        filterRegistration.setFilter(new XssEscapeServletFilter());
+        filterRegistration.setOrder(1);
+        filterRegistration.addUrlPatterns("/*");
+        return filterRegistration;
     }
 
 }

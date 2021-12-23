@@ -1,8 +1,10 @@
 package com.kosmo.kosmofurniture.controller.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.kosmo.kosmofurniture.domain.MapMarker;
 import com.kosmo.kosmofurniture.domain.Product;
 import com.kosmo.kosmofurniture.domain.ProductImage;
+import com.kosmo.kosmofurniture.domain.SearchDto;
 import com.kosmo.kosmofurniture.mapper.MapMarkerMapper;
 import com.kosmo.kosmofurniture.mapper.ProductMapper;
 import com.kosmo.kosmofurniture.service.ProductImageService;
@@ -11,13 +13,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,6 +31,12 @@ public class AdminController {
     private final ProductMapper productMapper;
     private final ProductImageService productImageService;
     private final ProductService productService;
+
+    /** 관리자메인 뷰페이지 */
+    @GetMapping
+    public ModelAndView adminMainPage() {
+        return new ModelAndView("admin/main");
+    }
 
     /** 지점등록 뷰페이지 */
     @GetMapping("/map")
@@ -57,14 +63,19 @@ public class AdminController {
 //    }
 
     /** 전체상품 뷰페이지 */
-    @GetMapping("/products")
-    public ModelAndView showProducts() {
+    @GetMapping("/products") // URL 예시 :  /admin/products?section=category&search=chair&pageNum=1&pageSize=5
+    public ModelAndView showProducts(HttpServletRequest request) {
 
         ModelAndView mav = new ModelAndView("admin/product_list");
 
-        List<Product> products = productMapper.findAll();
-        List<ProductImage> images = productImageService.findEachImage(products);
-        mav.addObject("products", products);
+        PageInfo<Product> pageInfo = PageInfo.of(productService.getProductsWithSearchAndPagination(request));
+
+        log.debug("pageInfo. : {}",pageInfo.getPageNum());
+
+//        List<Product> products = productMapper.findAll();
+        List<ProductImage> images = productImageService.findEachImage(pageInfo.getList());
+        mav.addObject("pageInfo", pageInfo);
+        mav.addObject("products", pageInfo.getList());
         mav.addObject("images", images);
 
         return mav;
@@ -76,9 +87,9 @@ public class AdminController {
 
         ModelAndView mav = new ModelAndView("admin/product_detail");
 
-        List<Product> products = productMapper.findAll();
-        List<ProductImage> images = productImageService.findEachImage(products);
-        mav.addObject("products", products);
+        Product product = productMapper.findById(productId);
+        List<ProductImage> images = productImageService.findAllByProductId(productId);
+        mav.addObject("product", product);
         mav.addObject("images", images);
 
         return mav;
@@ -102,4 +113,21 @@ public class AdminController {
         productImageService.save(uploadfiles, product.getProductId());
         return new ModelAndView("redirect:/admin/products");
     }
+
+    /** 상품삭제 API */ // DeleteMapping으로 하려 했으나 오류나서 나중에 해볼예정
+    @DeleteMapping("/products/delete-{productId}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
+
+        log.debug("Controller : DELETE admin/products/{productId}");
+        boolean result = productService.deleteProduct(productId);
+
+        return ResponseEntity.ok().body("{\"isDeleted\" : \"" + result + "\"}");
+    }
+//    @GetMapping("/products/delete-{productId}")
+//    public ModelAndView deleteProduct(@PathVariable Long productId) {
+//
+//        log.debug("Controller : DELETE admin/products/{productId}");
+//        productService.deleteProduct(productId);
+//        return new ModelAndView("redirect:/admin/products");
+//    }
 }

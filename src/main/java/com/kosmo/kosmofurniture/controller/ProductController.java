@@ -23,6 +23,7 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProducts() {
         return ResponseEntity.ok().body(productService.getAllProducts());
     }
+
     @GetMapping("/categories/{category}")
     public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable String category) {
         return ResponseEntity.ok().body(productService.getProductsByCategory(category));

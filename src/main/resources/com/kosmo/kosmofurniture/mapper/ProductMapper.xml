@@ -19,9 +19,31 @@
         SELECT * from product where product_id = #{productId}
     </select>
 
+    <select id="findWithSearchAndPagination" resultType="product">
+        SELECT * from product
+        <where>
+            <if test="section == 'name'">
+                name LIKE CONCAT('%',#{search},'%')
+            </if>
+            <if test="section == 'description'">
+                description LIKE CONCAT('%',#{search},'%')
+            </if>
+            <if test="section == 'category'">
+                category LIKE CONCAT('%',#{search},'%')
+            </if>
+<!--            <if test="section == 'price'">-->
+<!--                AND BOARD_CONTENT LIKE CONCAT('%',#{search},'%')-->
+<!--            </if>-->
+        </where>
+    </select>
+
     <select id="findByCategory" resultType="product">
         SELECT * from product where category = #{category}
     </select>
+
+    <delete id="deleteById">
+        delete from product where product_id = #{productId}
+    </delete>
 
     <delete id="deleteAll">
         delete from product
