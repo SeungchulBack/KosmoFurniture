@@ -8,9 +8,10 @@ import java.util.List;
 @Mapper
 public interface MemberMapper {
 
-    Long save(Member member);
+    Member save(Member member);
     List<Member> findAll();
     Member findById(Long memberId);
+    Member findByAccount(String account);
     Member findBySsn(String ssn);
     void deleteAll();
     void setAutoIncToZero();

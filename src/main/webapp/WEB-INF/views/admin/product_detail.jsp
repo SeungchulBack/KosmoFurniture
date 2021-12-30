@@ -81,89 +81,100 @@
     </style>
 </head>
 <body>
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <tr>
-            <td class="col-md-1">상품명</td>
-            <td class="col-md-11">${product.name}</td>
-        </tr>
-        <tr>
-            <td>카테고리</td>
-            <td>${product.category}</td>
-        </tr>
-        <tr>
-            <td colspan="2">상세설명 및 이미지</td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <pre>${product.description}</pre>
-                <br><br><br>
-                <c:if test="${!empty images}">
-                    <!-- 이미지 들어가는 부분 start-->
-                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 
-                            <%--                        <ol class="carousel-indicators">--%>
-                            <%--                            <c:forEach var="image" items="${images}" varStatus="a">--%>
-                            <%--                                <c:choose>--%>
-                            <%--                                    <c:when test="${a.index==0 }">--%>
-                            <%--                                        <li data-target="#carouselExampleIndicators" data-slide-to="${a.index }"--%>
-                            <%--                                            class="active"></li>--%>
-                            <%--                                    </c:when>--%>
-                            <%--                                    <c:otherwise>--%>
-                            <%--                                        <li data-target="#carouselExampleIndicators" data-slide-to="${a.index }"></li>--%>
-                            <%--                                    </c:otherwise>--%>
-                            <%--                                </c:choose>--%>
-                            <%--                            </c:forEach>--%>
-                            <%--                        </ol>--%>
+<jsp:include page="layout/header.jsp"/>
 
-                        <div class="carousel-inner">
-                            <c:out value="이미지 갯수 : ${images.size()}"></c:out>
-                            <c:forEach var="image" items="${images}" varStatus="a">
+<div class="container">
+    <div class="row align-items-start">
+        <jsp:include page="layout/left_nav.jsp" />
+        <div class="col">
 
-                                <%--                                <c:choose>--%>
-                                <%--                                    <c:when test="${a.index==0 }">--%>
-                                <%--                                        <div class="item active">--%>
-                                <%--                                            <img class="d-block w-50" src="/files/${image.dbFileName}">--%>
-                                <%--                                        </div>--%>
-                                <%--                                    </c:when>--%>
-                                <%--                                    <c:otherwise>--%>
-                                <div class="item active">
-                                    <img class="d-block w-50" src="/files/${image.dbFileName}">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <td class="col-md-1">상품명</td>
+                        <td class="col-md-11">${product.name}</td>
+                    </tr>
+                    <tr>
+                        <td>카테고리</td>
+                        <td>${product.category}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">상세설명 및 이미지</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <pre>${product.description}</pre>
+                            <br><br><br>
+                            <c:if test="${!empty images}">
+                                <!-- 이미지 들어가는 부분 start-->
+                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
+                                        <%--                        <ol class="carousel-indicators">--%>
+                                        <%--                            <c:forEach var="image" items="${images}" varStatus="a">--%>
+                                        <%--                                <c:choose>--%>
+                                        <%--                                    <c:when test="${a.index==0 }">--%>
+                                        <%--                                        <li data-target="#carouselExampleIndicators" data-slide-to="${a.index }"--%>
+                                        <%--                                            class="active"></li>--%>
+                                        <%--                                    </c:when>--%>
+                                        <%--                                    <c:otherwise>--%>
+                                        <%--                                        <li data-target="#carouselExampleIndicators" data-slide-to="${a.index }"></li>--%>
+                                        <%--                                    </c:otherwise>--%>
+                                        <%--                                </c:choose>--%>
+                                        <%--                            </c:forEach>--%>
+                                        <%--                        </ol>--%>
+
+                                    <div class="carousel-inner">
+                                        <c:out value="이미지 갯수 : ${images.size()}"></c:out>
+                                        <c:forEach var="image" items="${images}" varStatus="a">
+
+                                            <%--                                <c:choose>--%>
+                                            <%--                                    <c:when test="${a.index==0 }">--%>
+                                            <%--                                        <div class="item active">--%>
+                                            <%--                                            <img class="d-block w-50" src="/files/${image.dbFileName}">--%>
+                                            <%--                                        </div>--%>
+                                            <%--                                    </c:when>--%>
+                                            <%--                                    <c:otherwise>--%>
+                                            <div class="item active">
+                                                <img class="d-block w-50" src="/files/${image.dbFileName}">
+                                            </div>
+                                            <%--                                    </c:otherwise>--%>
+                                            <%--                                </c:choose>--%>
+
+                                        </c:forEach>
+                                    </div>
+
+                                        <%--                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"--%>
+                                        <%--                           data-slide="prev">--%>
+                                        <%--                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
+                                        <%--                            <span class="sr-only">Previous</span>--%>
+                                        <%--                        </a>--%>
+                                        <%--                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"--%>
+                                        <%--                           data-slide="next">--%>
+                                        <%--                            <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
+                                        <%--                            <span class="sr-only">Next</span>--%>
+                                        <%--                        </a>--%>
                                 </div>
-                                <%--                                    </c:otherwise>--%>
-                                <%--                                </c:choose>--%>
+                                <!-- 이미지 들어가는 부분 end-->
+                            </c:if>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="row">
+                                <input type="button" value='수정하기' onclick="location.href='/admin/products/${product.productId}/edit'"
+                                       class="btn btn-info">
+                                <input type="button" onclick="check_delete()" value="삭제하기" class="btn btn-info">
+                                <input type="button" value='일반삭제' onclick="location.href='/admin/products/delete-${product.productId}'"
+                                       class="btn btn-info">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
 
-                            </c:forEach>
-                        </div>
-
-                            <%--                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"--%>
-                            <%--                           data-slide="prev">--%>
-                            <%--                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
-                            <%--                            <span class="sr-only">Previous</span>--%>
-                            <%--                        </a>--%>
-                            <%--                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"--%>
-                            <%--                           data-slide="next">--%>
-                            <%--                            <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
-                            <%--                            <span class="sr-only">Next</span>--%>
-                            <%--                        </a>--%>
-                    </div>
-                    <!-- 이미지 들어가는 부분 end-->
-                </c:if>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div class="row">
-                    <input type="button" value='수정하기' onclick="location.href='/admin/products/${product.productId}/edit'"
-                           class="btn btn-info">
-                    <input type="button" onclick="check_delete()" value="삭제하기" class="btn btn-info">
-                    <input type="button" value='일반삭제' onclick="location.href='/admin/products/delete-${product.productId}'"
-                           class="btn btn-info">
-                </div>
-            </td>
-        </tr>
-    </table>
-
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="/js/bootstrap.min.js"></script>

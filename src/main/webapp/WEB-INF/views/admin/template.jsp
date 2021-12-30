@@ -6,10 +6,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>관리자</title>
+    <title>템플릿</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
+
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container">
@@ -21,4 +22,6 @@
     </div>
 </div>
 </body>
+<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 </html>

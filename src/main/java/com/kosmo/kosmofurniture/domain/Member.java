@@ -20,5 +20,7 @@ public class Member {
     private String ssn;
     private LocalDateTime createdAt;
     private String role;
+    private String thumbnailUrl;
+    private String socialLoginId;
 
 }

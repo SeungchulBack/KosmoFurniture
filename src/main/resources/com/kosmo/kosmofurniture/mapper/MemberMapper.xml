@@ -4,11 +4,15 @@
 
 <mapper namespace="com.kosmo.kosmofurniture.mapper.MemberMapper">
     <insert id="save" useGeneratedKeys="true" keyProperty="memberId">
-        INSERT member (account, full_name, pwd, email, phone, address, ssn, created_at, role) VALUES (#{account}, #{fullName}, #{pwd}, #{email}, #{phone}, #{address}, #{ssn}, #{createdAt}, #{role})
+        INSERT member (account, full_name, pwd, email, phone, address, ssn, created_at, role, thumbnail_url, social_login_id) VALUES (#{account}, #{fullName}, #{pwd}, #{email}, #{phone}, #{address}, #{ssn}, #{createdAt}, #{role}, #{thumbnailUrl}, #{socialLoginId})
     </insert>
 
     <select id="findById" resultType="member">
         SELECT * from member where member_id = #{memberId}
+    </select>
+
+    <select id="findByAccount" resultType="member">
+        SELECT * from member where account = #{account}
     </select>
 
     <select id="findAll" resultType="member">

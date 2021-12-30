@@ -12,6 +12,7 @@ import com.kosmo.kosmofurniture.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +36,8 @@ public class AdminController {
     /** 관리자메인 뷰페이지 */
     @GetMapping
     public ModelAndView adminMainPage() {
+
+        log.debug(SecurityContextHolder.getContext().getAuthentication().getName());
         return new ModelAndView("admin/main");
     }
 
@@ -53,6 +56,17 @@ public class AdminController {
         Long mapMarkerId = mapMarkerMapper.save(mapMarker);
 
         return ResponseEntity.ok().body(mapMarkerMapper.findById(mapMarkerId));
+    }
+
+    /** 전체지점 뷰페이지 */
+    @GetMapping("/maps")
+    public ModelAndView showMapList() {
+
+        ModelAndView mav = new ModelAndView("admin/map_list");
+        List<MapMarker> mapList = mapMarkerMapper.findAll();
+        log.debug("mapList : {}", mapList);
+        mav.addObject("mapList", mapList);
+        return mav;
     }
 
 //    @GetMapping("/products")

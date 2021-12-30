@@ -16,6 +16,7 @@ public class HomeController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body("API Running...");
     }
+
     @GetMapping("/jsphome")
     public ModelAndView jspHome() {
         return new ModelAndView("index");
