@@ -15,4 +15,5 @@ public class Product {
     private String category;
     private Integer stock;
     private LocalDateTime createdAt;
+
 }

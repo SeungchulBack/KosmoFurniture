@@ -2,6 +2,7 @@ package com.kosmo.kosmofurniture;
 
 import com.kosmo.kosmofurniture.domain.Member;
 import com.kosmo.kosmofurniture.mapper.MemberMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 
 @RunWith(SpringJUnit4ClassRunner.class) //Spring으로 Junit 테스트를 진행하기 위해 있어야 함
 @SpringBootTest
+@Slf4j
 public class MybatisTests {
 
     @Autowired
@@ -52,9 +54,9 @@ public class MybatisTests {
             member.setSsn("930202-1112211");
             member.setCreatedAt(LocalDateTime.now());
 
-            Long id = memberMapper.save(member);
-            System.out.println(id);
-            System.out.println(member.getFullName());
+            member = memberMapper.save(member);
+            log.debug(member.getMemberId().toString());
+            log.debug(member.getFullName());
         }
 
         //관리자 데이터

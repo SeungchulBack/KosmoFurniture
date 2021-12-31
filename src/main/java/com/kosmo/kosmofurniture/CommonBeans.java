@@ -9,13 +9,27 @@ import com.kosmo.kosmofurniture.mapper.OrderMapper;
 import com.kosmo.kosmofurniture.mapper.OrderProductMapper;
 import com.kosmo.kosmofurniture.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.security.access.expression.SecurityExpressionHandler;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
@@ -25,6 +39,33 @@ public class CommonBeans implements ApplicationListener<ContextClosedEvent> {
     private final ProductMapper productMapper;
     private final OrderMapper orderMapper;
     private final OrderProductMapper orderProductMapper;
+
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+
+        Map<String, List<String>> roleHierarchyMap = new HashMap<>();
+        roleHierarchyMap.put("ROLE_ADMIN", Arrays.asList("ROLE_MANAGER"));
+        roleHierarchyMap.put("ROLE_MANAGER", Arrays.asList("ROLE_USER"));
+        roleHierarchyMap.put("ROLE_USER", Arrays.asList("ROLE_ANONYMOUS"));
+
+        String roles = RoleHierarchyUtils.roleHierarchyFromMap(roleHierarchyMap);
+        roleHierarchy.setHierarchy(roles);
+
+        return roleHierarchy;
+    }
+
+    @Bean(name = "roleExpressionHandler")
+    public SecurityExpressionHandler<FilterInvocation> expressionHandler() {
+        DefaultWebSecurityExpressionHandler webSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
+        webSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
+        return webSecurityExpressionHandler;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 //    @Bean
 //    public CommandLineRunner initDB() {

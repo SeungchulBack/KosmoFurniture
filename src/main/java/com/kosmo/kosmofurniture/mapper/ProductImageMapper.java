@@ -12,7 +12,7 @@ public interface ProductImageMapper {
     Long save(ProductImage productImage);
     List<ProductImage> findByProductId(Long productId);
     ProductImage findOneByProductId(Long productId);
-//    void deleteByProductId(Long productId); 구현해야함
+    void deleteByProductId(Long productId);
     void deleteAll();
     void setAutoIncToZero();
 }

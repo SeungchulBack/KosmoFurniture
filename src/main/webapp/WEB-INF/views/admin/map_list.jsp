@@ -18,7 +18,8 @@
         }
         #map{
             margin: 10px;
-            width:50%;
+            padding: 10px;
+            width: 50%;
             float : right;
             height: 400px;
             border-radius: 10px;
@@ -74,45 +75,37 @@
     </style>
 </head>
 <body>
+<jsp:include page="layout/header.jsp"/>
 
-<jsp:include page="layout/header.jsp" />
 <div class="container">
-<div class="row align-items-start">
-    <jsp:include page="layout/left_nav.jsp" />
-    <div class="col">
-        <form action="map" method="post" id="addMarker">
-            <%-- Spring Security가 csrf토큰을 디폴트로 필요로 한다. --%>
-            <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-            <div id="map"></div>
-            <div id="placeName">
-                지점명 : <input type="text" id="Name" name="branchName">
-            </div>
+    <div class="row align-items-start">
+        <jsp:include page="layout/left_nav.jsp" />
+        <div class="col">
+            <form action="map" method="post" id="addMarker">
+                <%-- Spring Security가 csrf토큰을 디폴트로 필요로 한다. --%>
+                <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+                <div id="map"></div>
+                <div id="placeName">
+                    지점명 : <input type="text" id="Name" name="branchName">
+                </div>
 
-            <div id="placeAddress">
-                주 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소 :<input type="button" id="hide" onclick="sample5_execDaumPostcode()"value="주소 검색">
-                <input type="text" id="sample5_address" name="city">
-                <input type="button" id="full" onclick="sample5_execDaumPostcode()"value="주소 검색">
-            </div>
-            <input type="hidden" id="latitude" name="latitude">
-            <input type="hidden" id="longitude" name="longitude">
-            <input type="submit" id="addSubmit" value="추가">
-
-        </form>
+                <div id="placeAddress">
+                    주 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소 :<input type="button" id="hide" onclick="sample5_execDaumPostcode()"value="주소 검색">
+                    <input type="text" id="sample5_address" name="city">
+                    <input type="button" id="full" onclick="sample5_execDaumPostcode()"value="주소 검색">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-</div>
-
 </body>
-
-
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cdb07f97cd6753f6309ef47ab19d87b2&libraries=services"></script>
 <script>
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
-            center : new kakao.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+            center : new kakao.maps.LatLng(37.4853, 126.877), // 지도의 중심좌표
             level : 6
             // 지도의 확대 레벨
         };
@@ -121,11 +114,13 @@
     var map = new kakao.maps.Map(mapContainer, mapOption);
     //주소-좌표 변환 객체를 생성
     var geocoder = new kakao.maps.services.Geocoder();
-    //마커를 미리 생성
-    var marker = new kakao.maps.Marker({
-        position : new kakao.maps.LatLng(37.537187, 127.005476),
+
+    <c:forEach items="${mapList}" var="map">
+    var marker${map.mapMarkerId} = new kakao.maps.Marker({
+        position : new kakao.maps.LatLng(${map.latitude}, ${map.longitude}),
         map : map
-    });
+    })
+    </c:forEach>
 
     function sample5_execDaumPostcode() {
         new daum.Postcode(
@@ -156,7 +151,6 @@
                     // 주소 정보를 해당 필드에 넣는다.
                     document.getElementById("sample5_address").value = fullAddr;
                     // 주소로 상세 정보를 검색
-                    console.log("Before geocoder.addressSearch")
                     geocoder.addressSearch(data.address, function(
                         results, status) {
                         // 정상적으로 검색이 완료됐으면
@@ -178,14 +172,14 @@
                             // 지도 중심을 변경한다.
                             map.setCenter(coords);
                             // 마커를 결과값으로 받은 위치로 옮긴다.
-                            marker.setPosition(coords)
-
-                            var LatLng = marker.getPosition();
-                            console.log(marker.getPosition());
-                            console.log(LatLng.getLat());
-                            console.log(LatLng.getLng());
-                            $('#latitude').val(LatLng.getLat());
-                            $('#longitude').val(LatLng.getLng());
+                            // marker.setPosition(coords)
+                            //
+                            // var LatLng = marker.getPosition();
+                            // console.log(marker.getPosition());
+                            // console.log(LatLng.getLat());
+                            // console.log(LatLng.getLng());
+                            // $('#latitude').val(LatLng.getLat());
+                            // $('#longitude').val(LatLng.getLng());
                         }
                     });
                 }

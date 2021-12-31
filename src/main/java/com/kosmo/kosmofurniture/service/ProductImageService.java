@@ -23,6 +23,11 @@ public class ProductImageService {
 
     private String saveFolder = System.getProperty("user.dir") + "\\files";
 
+    @Transactional(readOnly = true)
+    public List<ProductImage> findAllByProductId(Long productId) {
+        return productImageMapper.findByProductId(productId);
+    }
+
     @Transactional
     public ProductImage getFirstImage(Long productId) {
         return productImageMapper.findOneByProductId(productId);
@@ -92,5 +97,10 @@ public class ProductImageService {
             productImages.add(firstImage);
         }
         return productImages;
+    }
+
+    @Transactional
+    public void deleteImage(Long productId) {
+        productImageMapper.deleteByProductId(productId);
     }
 }
