@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.kosmofurniture.mapper.ProductMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="productId">
+        INSERT product (name, description, price, category, stock, created_at) VALUES (#{name}, #{description}, #{price}, #{category}, #{stock}, #{createdAt})
+    </insert>
+
+    <update id="updateStock">
+        update product set stock = stock - #{stock} where product_id = #{productId"}
+    </update>
+
+    <select id="findAll" resultType="product">
+        select * from product
+    </select>
+
+    <select id="findById" resultType="product">
+        SELECT * from product where product_id = #{productId}
+    </select>
+
+    <select id="findByCategory" resultType="product">
+        SELECT * from product where category = #{category}
+    </select>
+
+    <delete id="deleteAll">
+        delete from product
+    </delete>
+
+    <update id="setAutoIncToZero">
+        ALTER TABLE product AUTO_INCREMENT = 1
+    </update>
+</mapper>
