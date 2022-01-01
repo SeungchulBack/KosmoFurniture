@@ -36,11 +36,12 @@ public class ProductImageService {
     @Transactional
     public void save(List<MultipartFile> uploadfiles, Long productId) {
 
-        ProductImage productImage = new ProductImage();
         log.debug("uploadfiles == null : {}", uploadfiles == null );
+//        log.debug("uploadfiles empty? : {}", uploadfiles.isEmpty());
+
+        ProductImage productImage = new ProductImage();
         if (uploadfiles == null) return;
 
-        log.debug("uploadfiles empty? : {}", uploadfiles.isEmpty());
 
         /* 업로드파일이 있는지 체크 */
         if (!uploadfiles.isEmpty()) {
@@ -102,7 +103,12 @@ public class ProductImageService {
     }
 
     @Transactional
-    public void deleteImage(Long productId) {
+    public void deleteAllProductImages(Long productId) {
         productImageMapper.deleteByProductId(productId);
+    }
+
+    @Transactional
+    public void deletebyId(Long productImageId) {
+        productImageMapper.deleteById(productImageId);
     }
 }

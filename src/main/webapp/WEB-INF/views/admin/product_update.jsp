@@ -27,39 +27,30 @@
                 },
             });
 
-            $('.product').submit(function () {
-                if ($('#category').val() == '') {
-                    alert('카테고리를 선택해주세요');
-                    return false;
-                }
+            let uploadImages = [];
 
-                if ($('#name').val() == '') {
-                    alert('상품명을 입력해 주세요.');
-                    return false;
-                }
+            $('input[type="file"]').on('change', function(){
+                uploadImages.push(this.files[0])
+                console.log(uploadImages);
+                console.log(document.getElementById('uploadfiles'))
+            })
 
-                if ($('#description').val() == '') {
-                    alert('상품설명을 입력해 주세요.');
-                    return false;
-                }
-
-                if ($('#price').val() == '') {
-                    alert('상품가격을 입력해 주세요.');
-                    return false;
-                }
-
-                if ($('#stock').val() == '') {
-                    alert('상품수량을 입력해 주세요.');
-                    return false;
-                }
-            });
         });
 
+        // ajax 관련 로직들
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
 
+        var imageForm = document.imageForm;
+
         function updateProduct() {
             var answer = confirm("수정하시겠습니까?");
+
+            let checkedDeleteImages = [];
+
+            $('input[name="deleteImageCheck"]:checked').each(function (i) {
+                checkedDeleteImages.push($(this).val());
+            })
 
             let name = $("#name").val();
             let description = $("#description").val();
@@ -67,23 +58,36 @@
             let category = $("#category").val();
             let stock = $("#stock").val();
 
+            let productData = {
+                'productId': '${product.productId}',
+                'name': name,
+                'description': description,
+                'price': price,
+                'category': category,
+                'stock': stock,
+                'checkedDeleteImages' : checkedDeleteImages
+            };
+
+            let formData = new FormData();
+
+            // formData.append('uploadImages', document.getElementById('uploadfiles').files[0]);
+            // formData.append('product', new Blob([JSON.stringify(productData)], {type: "application/json"}));
+
             if (answer) {
                 $.ajax({
-                    url: '/admin/products/${product.productId}/update',
+                    url: '/admin/products/update',
                     type: 'put',
+                    data: productData,
                     beforeSend : function(xhr){
                         <%--xhr.setRequestHeader(${_csrf.headerName}, ${_csrf.token});--%> //오류난다 왜인지 모르겠지만
                         xhr.setRequestHeader(header, token);
                     },
-                    data: {
-                        'productId': '${product.productId}',
-                        'name': name,
-                        'description': description,
-                        'price': price,
-                        'category': category,
-                        'stock': stock
-                    },
                     success: function (data) {
+
+                        console.log("product ajax succeed")
+
+                        $("form").submit();
+
                         console.log(data)
                         var result = JSON.parse(data);
                         if (result.isUpdated == "true") {
@@ -96,6 +100,9 @@
                 })
             }
         }
+
+
+
     </script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 </head>
@@ -107,17 +114,7 @@
         <jsp:include page="layout/left_nav.jsp"/>
         <div class="col">
             <div class="table-responsive">
-                <form
-                        method="post"
-                        action="/admin/products"
-                        enctype="multipart/form-data"
-                        class="product"
-                >
-                    <input
-                            name="${_csrf.parameterName}"
-                            type="hidden"
-                            value="${_csrf.token}"
-                    />
+
                     <table class="table table-hover table-bordered">
                         <tr>
                             <td colspan="2" class="col-md-12">
@@ -185,18 +182,41 @@
                         <tr>
                             <td>파일 첨부</td>
                             <td>
-                                <input
-                                        type="file"
-                                        id="uploadfiles"
-                                        name="uploadfiles"
-                                        class="with-preview"
-                                />
+                                <form
+                                        method="post"
+                                        action="/admin/products/ajaxImageUpload"
+                                        enctype="multipart/form-data"
+                                        class="product"
+                                        name="imageForm"
+                                        id="imageForm"
+                                >
+                                    <input
+                                            name="${_csrf.parameterName}"
+                                            type="hidden"
+                                            value="${_csrf.token}"
+                                    />
+                                    <input
+                                            type="file"
+                                            id="uploadfiles"
+                                            name="uploadfiles"
+                                            class="with-preview"
+                                    />
+                                    <input
+                                            style="width: 100%"
+                                            type="hidden"
+                                            name="productId"
+                                            id="productId"
+                                            class="board_input_box"
+                                            value="${product.productId}"
+                                    />
+                                </form>
                                 <c:if test="${!empty images}">
                                     <!-- 이미지 들어가는 부분 start-->
                                     <div>
                                         <div>
                                             <c:forEach var="image" items="${images}" varStatus="a">
-                                                <img class="d-block w-50" src="/files/${image.dbFileName}">
+                                                <img class="d-block w-50 mt-5" src="/files/${image.dbFileName}">
+                                                삭제 : <input type="checkbox" name="deleteImageCheck" value="${image.productImageId}">${image.originalFileName}
                                             </c:forEach>
                                         </div>
                                     </div>
@@ -218,7 +238,6 @@
                                 onclick="history.back()"
                         />
                     </div>
-                </form>
             </div>
         </div>
     </div>

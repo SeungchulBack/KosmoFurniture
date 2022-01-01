@@ -32,7 +32,7 @@ public class ProductService {
     @Transactional
     public boolean deleteProduct(Long productId) {
         try {
-            productImageService.deleteImage(productId);
+            productImageService.deleteAllProductImages(productId);
             productMapper.deleteById(productId);
         } catch (Exception e) {
             e.printStackTrace();

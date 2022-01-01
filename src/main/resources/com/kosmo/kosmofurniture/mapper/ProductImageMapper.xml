@@ -19,6 +19,10 @@
         delete from product_image where product_id = #{productId}
     </delete>
 
+    <delete id="deleteById">
+        delete from product_image where product_image_id = #{productImageId}
+    </delete>
+
     <delete id="deleteAll">
         delete from product_image
     </delete>
