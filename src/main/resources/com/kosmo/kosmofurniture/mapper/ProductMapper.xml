@@ -4,21 +4,8 @@
 
 <mapper namespace="com.kosmo.kosmofurniture.mapper.ProductMapper">
     <insert id="save" useGeneratedKeys="true" keyProperty="productId">
-        INSERT product (name, description, price, category, stock, created_at)
-        VALUES (#{name}, #{description}, #{price}, #{category}, #{stock}, #{createdAt})
+        INSERT product (name, description, price, category, stock, created_at) VALUES (#{name}, #{description}, #{price}, #{category}, #{stock}, #{createdAt})
     </insert>
-
-    <update id="update">
-        update product
-        <set>
-            name = #{name},
-            description = #{description},
-            price = #{price},
-            category = #{category},
-            stock = #{stock}
-        </set>
-        where product_id = #{productId}
-    </update>
 
     <update id="updateStock">
         update product set stock = stock - #{stock} where product_id = #{productId"}

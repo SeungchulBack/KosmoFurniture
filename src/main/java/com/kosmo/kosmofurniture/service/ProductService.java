@@ -6,7 +6,6 @@ import com.kosmo.kosmofurniture.domain.Product;
 import com.kosmo.kosmofurniture.domain.SearchDto;
 import com.kosmo.kosmofurniture.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ProductService {
 
     private final ProductMapper productMapper;
@@ -50,10 +48,4 @@ public class ProductService {
         return productMapper.findWithSearchAndPagination(searchDto);
     }
 
-    @Transactional
-    public boolean updateProduct(Product product) {
-        log.debug(String.valueOf(product.getProductId()));
-        productMapper.update(product);
-        return true;
-    }
 }

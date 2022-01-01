@@ -1,7 +1,10 @@
 package com.kosmo.kosmofurniture.controller.admin;
 
 import com.github.pagehelper.PageInfo;
-import com.kosmo.kosmofurniture.domain.*;
+import com.kosmo.kosmofurniture.domain.MapMarker;
+import com.kosmo.kosmofurniture.domain.Product;
+import com.kosmo.kosmofurniture.domain.ProductImage;
+import com.kosmo.kosmofurniture.domain.SearchDto;
 import com.kosmo.kosmofurniture.mapper.MapMarkerMapper;
 import com.kosmo.kosmofurniture.mapper.ProductMapper;
 import com.kosmo.kosmofurniture.service.ProductImageService;
@@ -9,8 +12,6 @@ import com.kosmo.kosmofurniture.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -96,48 +97,16 @@ public class AdminController {
 
     /** 단일상품 뷰페이지 */
     @GetMapping("/products/{productId}")
-    public ModelAndView showProduct(@PathVariable Long productId, HttpServletRequest request) {
+    public ModelAndView showProduct(@PathVariable Long productId) {
 
         ModelAndView mav = new ModelAndView("admin/product_detail");
 
-        String referer = request.getHeader("REFERER");
-
-        log.debug(referer);
-
         Product product = productMapper.findById(productId);
         List<ProductImage> images = productImageService.findAllByProductId(productId);
         mav.addObject("product", product);
         mav.addObject("images", images);
 
         return mav;
-    }
-    /** 상품수정 뷰페이지 */
-    @GetMapping("products/{productId}/update")
-    public ModelAndView editProductView(@PathVariable Long productId, HttpServletRequest request) {
-
-        Product product = productMapper.findById(productId);
-
-        List<ProductImage> images = productImageService.findAllByProductId(productId);
-
-        ModelAndView mav = new ModelAndView("admin/product_update");
-        mav.addObject("product", product);
-        mav.addObject("images", images);
-
-        return mav;
-    }
-
-    /** 상품수정 PUT 요청 */
-    @PutMapping("products/{productId}/update")
-    public ResponseEntity<String> editProduct(Product product/*, List<MultipartFile> uploadFiles*/) {
-
-//        log.debug("createdAt() : {}", product.getCreatedAt().toString()); // null
-
-        boolean result = productService.updateProduct(product);
-
-//        productImageService.save(uploadFiles, product.getProductId());
-
-        return ResponseEntity.ok().body("{\"isUpdated\" : \"" + result + "\"}");
-
     }
 
     /** 상품등록 뷰페이지 */
@@ -149,7 +118,6 @@ public class AdminController {
     /** 상품등록 POST */
     @PostMapping("/products")
     public ModelAndView addProduct(Product product, List<MultipartFile> uploadfiles) {
-        log.debug("ProductId before save : {}", product.getProductId());
 
         product.setCreatedAt(LocalDateTime.now());
         productMapper.save(product);
@@ -157,14 +125,14 @@ public class AdminController {
         log.debug("savedProductId : {}", product.getProductId());
 
         productImageService.save(uploadfiles, product.getProductId());
-        return new ModelAndView("redirect:/admin");
+        return new ModelAndView("redirect:/admin/products");
     }
 
     /** 상품삭제 API */ // DeleteMapping으로 하려 했으나 오류나서 나중에 해볼예정
-    @DeleteMapping("/products/{productId}/delete")
+    @DeleteMapping("/products/delete-{productId}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
 
-        log.debug("Controller : DELETE admin/products/{productId}/delete");
+        log.debug("Controller : DELETE admin/products/{productId}");
         boolean result = productService.deleteProduct(productId);
 
         return ResponseEntity.ok().body("{\"isDeleted\" : \"" + result + "\"}");

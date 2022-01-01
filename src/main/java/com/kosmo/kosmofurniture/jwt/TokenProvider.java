@@ -35,8 +35,6 @@ public class TokenProvider {
 
     public String createToken(Authentication authentication) {
 
-        log.debug(authentication.toString());
-
         ApiMember apiMember = (ApiMember) authentication.getPrincipal();
 
         // role에 [ROLE_USER] 이런식으로 [] 대괄호 있으면 권한으로 넘어가는 값이 ROLE_USER가 아니라 [ROLE_USER]로 넘어가서 오류남. 대괄호[]잘라내야함

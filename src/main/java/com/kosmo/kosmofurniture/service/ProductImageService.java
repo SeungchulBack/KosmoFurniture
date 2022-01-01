@@ -37,13 +37,11 @@ public class ProductImageService {
     public void save(List<MultipartFile> uploadfiles, Long productId) {
 
         ProductImage productImage = new ProductImage();
-        log.debug("uploadfiles == null : {}", uploadfiles == null );
-        if (uploadfiles == null) return;
 
-        log.debug("uploadfiles empty? : {}", uploadfiles.isEmpty());
+        log.debug("uploadfiles empty? : {}", uploadfiles.get(0).isEmpty());
 
         /* 업로드파일이 있는지 체크 */
-        if (!uploadfiles.isEmpty()) {
+        if (!uploadfiles.get(0).isEmpty()) {
             /* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. */
             if (!new File(saveFolder).exists()) {
                 try {
