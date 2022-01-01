@@ -2,13 +2,14 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c"
            uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>관리자 상품등록페이지</title>
     <script src="/js/jquery-3.3.1.js"></script>
     <script src="/js/jquery.form.js"></script>
@@ -53,6 +54,48 @@
                 }
             });
         });
+
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        function updateProduct() {
+            var answer = confirm("수정하시겠습니까?");
+
+            let name = $("#name").val();
+            let description = $("#description").val();
+            let price = $("#price").val();
+            let category = $("#category").val();
+            let stock = $("#stock").val();
+
+            if (answer) {
+                $.ajax({
+                    url: '/admin/products/${product.productId}/update',
+                    type: 'put',
+                    beforeSend : function(xhr){
+                        <%--xhr.setRequestHeader(${_csrf.headerName}, ${_csrf.token});--%> //오류난다 왜인지 모르겠지만
+                        xhr.setRequestHeader(header, token);
+                    },
+                    data: {
+                        'productId': '${product.productId}',
+                        'name': name,
+                        'description': description,
+                        'price': price,
+                        'category': category,
+                        'stock': stock
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        var result = JSON.parse(data);
+                        if (result.isUpdated == "true") {
+                            alert("상품이 수정되었습니다.");
+                            history.back(3);
+                        } else {
+                            alert("오류가 발생했습니다.");
+                        }
+                    }
+                })
+            }
+        }
     </script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 </head>
@@ -80,18 +123,12 @@
                             <td colspan="2" class="col-md-12">
                                 <select name="category" id="category">
                                     <option value="">카테고리 선택</option>
-                                    <option value="chair">의자</option>
-                                    <option value="desk">책상</option>
-                                    <option value="bed">침대</option>
-                                    <option value="sofa">소파</option>
-                                    <option value="etc">기타</option>
+                                    <option value="chair" <c:if test="${product.category == 'chair'}">selected</c:if>>의자</option>
+                                    <option value="desk" <c:if test="${product.category == 'desk'}">selected</c:if>>책상</option>
+                                    <option value="bed" <c:if test="${product.category == 'bed'}">selected</c:if>>침대</option>
+                                    <option value="sofa" <c:if test="${product.category == 'sofa'}">selected</c:if>>소파</option>
+                                    <option value="etc" <c:if test="${product.category == 'etc'}">selected</c:if>>기타</option>
                                 </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-2">글쓴이</td>
-                            <td class="col-md-10">
-                                <sec:authentication property="principal.username"/>
                             </td>
                         </tr>
                         <tr>
@@ -103,6 +140,7 @@
                                         name="name"
                                         id="name"
                                         class="board_input_box"
+                                        value="${product.name}"
                                 />
                             </td>
                         </tr>
@@ -115,6 +153,7 @@
                                         name="price"
                                         id="price"
                                         class="board_input_box"
+                                        value="${product.price}"
                                 />
                             </td>
                         </tr>
@@ -127,6 +166,7 @@
                                         name="stock"
                                         id="stock"
                                         class="board_input_box"
+                                        value="${product.stock}"
                                 />
                             </td>
                         </tr>
@@ -139,7 +179,7 @@
                             name="description"
                             id="description"
                             class="board_input_box"
-                    ></textarea>
+                    >${product.description}</textarea>
                             </td>
                         </tr>
                         <tr>
@@ -151,15 +191,26 @@
                                         name="uploadfiles"
                                         class="with-preview"
                                 />
+                                <c:if test="${!empty images}">
+                                    <!-- 이미지 들어가는 부분 start-->
+                                    <div>
+                                        <div>
+                                            <c:forEach var="image" items="${images}" varStatus="a">
+                                                <img class="d-block w-50" src="/files/${image.dbFileName}">
+                                            </c:forEach>
+                                        </div>
+                                    </div>
+                                </c:if>
                             </td>
                         </tr>
                     </table>
                     <div id="product">
                         <input
-                                type="submit"
-                                value="등록"
+                                type="button"
+                                onclick="updateProduct()"
+                                value="저장하기"
                                 class="input_button btn btn-info"
-                        />
+                        >
                         <input
                                 type="reset"
                                 value="취소"
