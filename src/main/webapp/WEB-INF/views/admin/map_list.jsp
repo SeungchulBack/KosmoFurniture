@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -13,60 +13,61 @@
     <script src="/js/jquery-3.3.1.js"></script>
     <script src="/js/Marker.js"></script>
     <style>
-        #sample5_address{
-            width : 30%;
+        #sample5_address {
+            width: 30%;
         }
-        #map{
+
+        #map {
             margin: 10px;
             padding: 10px;
-            width: 50%;
-            float : right;
+            width: 90%;
             height: 400px;
             border-radius: 10px;
             /*display:none;*/
         }
-        #placeName > input[type=text]{
-            width:40%;
+
+        #placeName > input[type=text] {
+            width: 40%;
         }
-        #placeAddress input[type=button], #addSubmit{
+
+        #placeAddress input[type=button] {
             transition-duration: 0.4s;
             text-decoration: none;
-            border-radius : 3px;
-            background-color : #26A69A;
+            border-radius: 3px;
+            background-color: #26A69A;
             border: 2px solid #26A69A;
-            color : white;
+            color: white;
         }
-        #placeAddress input[type=button]:hover, #addSubmit:hover{
-            background-color : white;
-            color : black;
+
+        #placeAddress input[type=button]:hover {
+            background-color: white;
+            color: black;
             border: 2px solid #26A69A
 
         }
-        #hide{
-            display : none;
+
+        #hide {
+            display: none;
         }
-        #addSubmit{
-            margin-top : 10px;
-            width: 100px;
-        }
-        @media(max-width:412px){
-            #placeName, #placeType, #placeAddress, #placeTel, #placeComment{
+
+        @media (max-width: 600px) {
+            #placeAddress {
                 width: 100%;
             }
-            #map{
-                width:100%;
-                clear:both;
-                height :300px;
-                margin-bottom : 2em;
+
+            #map {
+                width: 100%;
+                clear: both;
+                height: 300px;
+                margin-bottom: 2em;
             }
-            #placeName > input[type=text]{
-                width:79%;
+
+            #placeName > input[type=text] {
+                width: 79%;
             }
-            #full{
-                display:none;
-            }
-            #hide{
-                display : block;
+
+            #hide {
+                display: block;
                 margin-bottom: 10px;
                 float: right;
                 margin-right: 180px;
@@ -77,23 +78,23 @@
 <body>
 <jsp:include page="layout/header.jsp"/>
 
-<div class="container m-0">
+<div class="container-fluid">
     <div class="row align-items-start">
-        <jsp:include page="layout/left_nav.jsp" />
+        <jsp:include page="layout/left_nav.jsp"/>
         <div class="col">
             <form action="map" method="post" id="addMarker">
                 <%-- Spring Security가 csrf토큰을 디폴트로 필요로 한다. --%>
                 <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+                <div id="placeAddress" class="my-2">
+                    주변 지점 찾기 :<input type="button" id="hide" onclick="sample5_execDaumPostcode()" value="주소 검색">
+                    <input type="text" id="sample5_address" name="city" onclick="sample5_execDaumPostcode()"
+                           value="여기를 클릭하세요.">
+                </div>
                 <div id="map"></div>
-                <div id="placeName">
-                    지점명 : <input type="text" id="Name" name="branchName">
-                </div>
-
-                <div id="placeAddress">
-                    주 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소 :<input type="button" id="hide" onclick="sample5_execDaumPostcode()"value="주소 검색">
-                    <input type="text" id="sample5_address" name="city">
-                    <input type="button" id="full" onclick="sample5_execDaumPostcode()"value="주소 검색">
-                </div>
+                <%--                <div id="placeName">--%>
+                <%--                    지점명 : <input type="text" id="Name" name="branchName">--%>
+                <%--                    <input type="button" id="branch" onclick="sample5_execDaumPostcode()"value="지점 검색">--%>
+                <%--                </div>--%>
             </form>
         </div>
     </div>
@@ -105,8 +106,8 @@
 <script>
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
-            center : new kakao.maps.LatLng(37.4853, 126.877), // 지도의 중심좌표
-            level : 6
+            center: new kakao.maps.LatLng(37.4853, 126.877), // 지도의 중심좌표
+            level: 6
             // 지도의 확대 레벨
         };
 
@@ -117,15 +118,15 @@
 
     <c:forEach items="${mapList}" var="map">
     var marker${map.mapMarkerId} = new kakao.maps.Marker({
-        position : new kakao.maps.LatLng(${map.latitude}, ${map.longitude}),
-        map : map
+        position: new kakao.maps.LatLng(${map.latitude}, ${map.longitude}),
+        map: map
     })
     </c:forEach>
 
     function sample5_execDaumPostcode() {
         new daum.Postcode(
             {
-                oncomplete : function(data) {
+                oncomplete: function (data) {
                     // 각 주소의 노출 규칙에 따라 주소를 조합한다.
                     // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                     var fullAddr = data.address; // 최종 주소 변수
@@ -151,7 +152,7 @@
                     // 주소 정보를 해당 필드에 넣는다.
                     document.getElementById("sample5_address").value = fullAddr;
                     // 주소로 상세 정보를 검색
-                    geocoder.addressSearch(data.address, function(
+                    geocoder.addressSearch(data.address, function (
                         results, status) {
                         // 정상적으로 검색이 완료됐으면
                         console.log(status === kakao.maps.services.Status.OK);
@@ -163,7 +164,7 @@
                             console.log(result.y);
 
                             // 해당 주소에 대한 좌표를 받아서
-                            var coords = new kakao.maps.LatLng(result.y,	result.x);
+                            var coords = new kakao.maps.LatLng(result.y, result.x);
                             // 지도를 보여준다.
 
                             mapContainer.style.display = "block";

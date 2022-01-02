@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 
-<nav class="col-2 col-md-2 d-md-block bg-light sidebar ">
+<nav class="col-2 bg-light sidebar ">
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <a class="nav-item">

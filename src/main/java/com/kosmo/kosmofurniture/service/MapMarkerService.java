@@ -13,8 +13,9 @@ public class MapMarkerService {
 
     private final MapMarkerMapper mapMarkerMapper;
 
-    public Long createMapMarker(MapMarker mapMarker) {
-        return mapMarkerMapper.save(mapMarker);
+    public MapMarker createMapMarker(MapMarker mapMarker) {
+        mapMarkerMapper.save(mapMarker);
+        return mapMarker;
     }
 
     public List<MapMarker> getAllMapMarkers() {

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.kosmo.kosmofurniture.domain.*;
 import com.kosmo.kosmofurniture.mapper.MapMarkerMapper;
 import com.kosmo.kosmofurniture.mapper.ProductMapper;
+import com.kosmo.kosmofurniture.service.MapMarkerService;
 import com.kosmo.kosmofurniture.service.ProductImageService;
 import com.kosmo.kosmofurniture.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class AdminController {
     private final ProductMapper productMapper;
     private final ProductImageService productImageService;
     private final ProductService productService;
+    private final MapMarkerService mapMarkerService;
 
     /**
      * 관리자메인 뷰페이지
@@ -60,9 +62,9 @@ public class AdminController {
 
         log.debug("MapMarker : branchName {}, address {}", mapMarker.getBranchName(), mapMarker.getCity());
 
-        Long mapMarkerId = mapMarkerMapper.save(mapMarker);
+        MapMarker savedMapMarker = mapMarkerService.createMapMarker(mapMarker);
 
-        return ResponseEntity.ok().body(mapMarkerMapper.findById(mapMarkerId));
+        return ResponseEntity.ok().body(savedMapMarker);
     }
 
     /**
