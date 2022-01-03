@@ -80,15 +80,13 @@
             max-width: 0;
             word-break: break-all;
         }
-
-        /* 	.item{	width:500px} */
     </style>
 </head>
 <body>
 
 <jsp:include page="layout/header.jsp"/>
 
-<div class="container-fluid">
+<div class="container-fluid ">
     <div class="row align-items-start">
         <jsp:include page="layout/left_nav.jsp" />
         <div class="col">
