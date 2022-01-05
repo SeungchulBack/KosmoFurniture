@@ -29,7 +29,7 @@ public class MemberService {
         String encodedPassword = passwordEncoder.encode(member.getPwd());
         member.setPwd(encodedPassword);
         member.setCreatedAt(LocalDateTime.now());
-        Long savedId = memberMapper.save(member).getMemberId();
+        Long savedId = member.getMemberId();
         return savedId;
     }
 
@@ -41,7 +41,8 @@ public class MemberService {
         member.setFullName(name);
         member.setRole("ROLE_USER");
         member.setCreatedAt(LocalDateTime.now());
-        return memberMapper.save(member);
+        memberMapper.save(member);
+        return member;
     }
 
     public Member getSingleMember(Long memberId) {

@@ -1,8 +1,10 @@
 package com.kosmo.kosmofurniture.controller.admin;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kosmo.kosmofurniture.domain.*;
 import com.kosmo.kosmofurniture.mapper.MapMarkerMapper;
+import com.kosmo.kosmofurniture.mapper.NoticeMapper;
 import com.kosmo.kosmofurniture.mapper.ProductMapper;
 import com.kosmo.kosmofurniture.service.MapMarkerService;
 import com.kosmo.kosmofurniture.service.ProductImageService;
@@ -32,9 +34,11 @@ public class AdminController {
 
     private final MapMarkerMapper mapMarkerMapper;
     private final ProductMapper productMapper;
+    private final NoticeMapper noticeMapper;
     private final ProductImageService productImageService;
     private final ProductService productService;
     private final MapMarkerService mapMarkerService;
+    
 
     /**
      * 관리자메인 뷰페이지
@@ -87,7 +91,7 @@ public class AdminController {
 //        return mav;
 //    }
 
-    /**
+    /*
      * 전체상품 뷰페이지
      */
     @GetMapping("/products") // URL 예시 :  /admin/products?section=category&search=chair&pageNum=1&pageSize=5
@@ -214,4 +218,23 @@ public class AdminController {
 //        productService.deleteProduct(productId);
 //        return new ModelAndView("redirect:/admin/products");
 //    }
+    
+    /*
+     * 공지등록 뷰페이지
+    */
+    @GetMapping("/notice")
+    public ModelAndView noticeView(HttpServletRequest request) {
+    	ModelAndView mav = new ModelAndView("admin/notice");
+    	
+    	PageHelper.startPage(request);
+    	PageInfo<Notice> pageInfo = PageInfo.of(noticeMapper.findAll());
+    	mav.addObject("pageInfo", pageInfo);
+    	mav.addObject("noticeList", pageInfo.getList());
+    	
+    	return mav;
+    }
+    
+    
+    
+    
 }

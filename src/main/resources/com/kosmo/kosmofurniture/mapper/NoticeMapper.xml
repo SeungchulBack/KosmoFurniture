@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.kosmofurniture.mapper.NoticeMapper">
+    <insert id="save" >
+        INSERT `notice` (notice_id, title, content, created_at) VALUES (#{noticeId}, #{title}, #{content}, #{createdAt})
+    </insert>
+
+    <select id="findById" resultType="notice">
+        SELECT * from `notice` where notice_id = #{noticeId}
+    </select>
+    
+    <select id="findAll" resultType="notice">
+    	SELECT * from `notice` 
+    </select>
+    
+    <delete id="deleteAll">
+        delete from `notice`
+    </delete>
+
+    <update id="setAutoIncToZero">
+        ALTER TABLE `notice` AUTO_INCREMENT = 1
+    </update>
+</mapper>
