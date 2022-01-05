@@ -48,7 +48,7 @@
             var answer = confirm("정말 삭제하시 겠습니까?");
             if (answer) {
                 $.ajax({
-                    url: '/admin/products/delete-${product.productId}',
+                    url: '/admin/products/${product.productId}/delete',
                     type: 'delete',
                     beforeSend : function(xhr){
                         <%--xhr.setRequestHeader(${_csrf.headerName}, ${_csrf.token});--%>
@@ -76,15 +76,17 @@
             margin: 0 auto;
             max-width: 100%
         }
-
-        /* 	.item{	width:500px} */
+        .td-description {
+            max-width: 0;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
 
 <jsp:include page="layout/header.jsp"/>
 
-<div class="container">
+<div class="container-fluid ">
     <div class="row align-items-start">
         <jsp:include page="layout/left_nav.jsp" />
         <div class="col">
@@ -103,8 +105,8 @@
                         <td colspan="2">상세설명 및 이미지</td>
                     </tr>
                     <tr>
-                        <td colspan="2">
-                            <pre>${product.description}</pre>
+                        <td colspan="2" class="td-description">
+                            ${product.description}
                             <br><br><br>
                             <c:if test="${!empty images}">
                                 <!-- 이미지 들어가는 부분 start-->
@@ -162,11 +164,12 @@
                     <tr>
                         <td colspan="2">
                             <div class="row">
-                                <input type="button" value='수정하기' onclick="location.href='/admin/products/${product.productId}/edit'"
-                                       class="btn btn-info">
-                                <input type="button" onclick="check_delete()" value="삭제하기" class="btn btn-info">
+                                <input type="button" value='수정하기' onclick="location.href='/admin/products/${product.productId}/update'"
+                                       class="btn btn-info m-1">
+                                <input type="button" onclick="check_delete()" value="삭제하기" class="btn btn-info m-1">
                                 <input type="button" value='일반삭제' onclick="location.href='/admin/products/delete-${product.productId}'"
-                                       class="btn btn-info">
+                                       class="btn btn-info m-1">
+                                <input type="button" onclick="history.back()" value="뒤로가기" class="btn btn-info m-1">
                             </div>
                         </td>
                     </tr>
