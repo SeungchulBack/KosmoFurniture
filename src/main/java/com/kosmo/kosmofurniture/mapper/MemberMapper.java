@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface MemberMapper {
 
-    Member save(Member member);
+    void save(Member member);
     List<Member> findAll();
     Member findById(Long memberId);
     Member findByAccount(String account);

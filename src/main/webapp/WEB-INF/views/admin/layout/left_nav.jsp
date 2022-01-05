@@ -10,6 +10,7 @@
                     <a href="/admin/products/form" style="margin:5px;" class="nav-link active">상품등록</a>
                     <a href="/admin/maps" style="margin:5px;" class="nav-link active">지점목록</a>
                     <a href="/admin/map" style="margin:5px;" class="nav-link active">지점등록</a>
+                    <a href="/admin/notice?pageNum=1&pageSize=10" style="margin:5px;" class="nav-link active">공지사항</a>
                 </div>
             </a>
             </li>
