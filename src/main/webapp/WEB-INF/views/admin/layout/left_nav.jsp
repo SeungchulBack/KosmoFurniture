@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 
-<nav class="col-2 bg-light sidebar ">
+<nav class="col-2 bg-light sidebar">
     <div class="sidebar-sticky">
-        <ul class="nav flex-column">
+        <ul class="nav">
             <a class="nav-item">
-                <div style="padding-top:10px;" class="nav flex-column nav-pills" aria-orientation="vertical">
-                    <a href="/admin/products?section=&search=&pageNum=1&pageSize=10" style="margin:5px;" class="nav-link active">상품목록</a>
-                    <a href="/admin/products/form" style="margin:5px;" class="nav-link active">상품등록</a>
-                    <a href="/admin/maps" style="margin:5px;" class="nav-link active">지점목록</a>
-                    <a href="/admin/map" style="margin:5px;" class="nav-link active">지점등록</a>
-                    <a href="/admin/notice?pageNum=1&pageSize=10" style="margin:5px;" class="nav-link active">공지사항</a>
+                <div class="nav nav-pills pt-2">
+                    <a id="memberList" href="/admin/members?section=&search=&pageNum=1&pageSize=10" class="nav-link active m-1">회원목록</a>
+                    <a id="productList" href="/admin/products?section=&search=&pageNum=1&pageSize=10" class="nav-link active m-1">상품목록</a>
+                    <a id="productForm" href="/admin/products/form" class="nav-link active m-1">상품등록</a>
+                    <a id="locationList" href="/admin/maps" class="nav-link active m-1">지점목록</a>
+                    <a id="locationForm" href="/admin/map" class="nav-link active m-1">지점등록</a>
+                    <a id="noticeList" href="/admin/notice?pageNum=1&pageSize=10" class="nav-link active m-1">공지사항</a>
                 </div>
             </a>
             </li>

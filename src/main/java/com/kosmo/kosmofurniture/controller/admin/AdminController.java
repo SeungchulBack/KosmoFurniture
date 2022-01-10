@@ -4,16 +4,16 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kosmo.kosmofurniture.domain.*;
 import com.kosmo.kosmofurniture.mapper.MapMarkerMapper;
+import com.kosmo.kosmofurniture.mapper.MemberMapper;
 import com.kosmo.kosmofurniture.mapper.NoticeMapper;
 import com.kosmo.kosmofurniture.mapper.ProductMapper;
 import com.kosmo.kosmofurniture.service.MapMarkerService;
+import com.kosmo.kosmofurniture.service.MemberService;
 import com.kosmo.kosmofurniture.service.ProductImageService;
 import com.kosmo.kosmofurniture.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -38,16 +39,36 @@ public class AdminController {
     private final ProductImageService productImageService;
     private final ProductService productService;
     private final MapMarkerService mapMarkerService;
+    private final MemberService memberService;
     
 
     /**
      * 관리자메인 뷰페이지
      */
     @GetMapping
-    public ModelAndView adminMainPage() {
+    public ModelAndView adminMainPage(HttpSession session) {
 
-        log.debug(SecurityContextHolder.getContext().getAuthentication().getName());
+        log.debug(SecurityContextHolder.getContext().getAuthentication().toString());
+        log.debug("JSESSIONID : {}", session.getId());
         return new ModelAndView("admin/main");
+    }
+
+    /**
+     * 회원목록 뷰페이지
+     */
+    @GetMapping("/members")
+    public ModelAndView membersView(HttpServletRequest request) {
+
+        ModelAndView mav = new ModelAndView("admin/member_list");
+
+        PageInfo<Member> pageInfo = PageInfo.of(memberService.getmembersWithSearchAndPagination(request));
+
+        log.debug("pageInfo.getPageNum() : {}", pageInfo.getPageNum());
+
+        mav.addObject("pageInfo", pageInfo);
+        mav.addObject("members", pageInfo.getList());
+
+        return mav;
     }
 
     /**
@@ -91,7 +112,7 @@ public class AdminController {
 //        return mav;
 //    }
 
-    /*
+    /**
      * 전체상품 뷰페이지
      */
     @GetMapping("/products") // URL 예시 :  /admin/products?section=category&search=chair&pageNum=1&pageSize=5
@@ -211,17 +232,10 @@ public class AdminController {
 
         return ResponseEntity.ok().body("{\"isDeleted\" : \"" + result + "\"}");
     }
-//    @GetMapping("/products/delete-{productId}")
-//    public ModelAndView deleteProduct(@PathVariable Long productId) {
-//
-//        log.debug("Controller : DELETE admin/products/{productId}");
-//        productService.deleteProduct(productId);
-//        return new ModelAndView("redirect:/admin/products");
-//    }
     
-    /*
+    /**
      * 공지등록 뷰페이지
-    */
+     */
     @GetMapping("/notice")
     public ModelAndView noticeView(HttpServletRequest request) {
     	ModelAndView mav = new ModelAndView("admin/notice");

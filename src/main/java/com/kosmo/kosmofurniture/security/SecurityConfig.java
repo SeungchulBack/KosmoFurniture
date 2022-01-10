@@ -1,5 +1,7 @@
 package com.kosmo.kosmofurniture.security;
 
+import com.kosmo.kosmofurniture.jwt.JwtAuthenticationFilter;
+import com.kosmo.kosmofurniture.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -19,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,6 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
     private final SecurityExpressionHandler<FilterInvocation> roleExpressionHandler;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final TokenProvider tokenProvider;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -49,6 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/css/**",
                         "/js/**",
+                        "/img/**",
                         "/files/**",
                         "/fabicon.ico",
                         "/error"
@@ -58,15 +64,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-
                 .authorizeRequests()
                 .antMatchers("/members/register").permitAll()
+                .antMatchers("/members/check/*").permitAll()
                 .antMatchers("/products/**").hasRole("ADMIN")
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/shop/**").hasRole("USER")
+                .antMatchers("/").hasRole("ANONYMOUS")
                 .anyRequest().authenticated()
                 .expressionHandler(roleExpressionHandler)
-        .and()
+
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(customAccessDeniedHandler)
+
+                .and()
                 .formLogin()
-                .defaultSuccessUrl("/admin");
+                .defaultSuccessUrl("/admin")
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 }

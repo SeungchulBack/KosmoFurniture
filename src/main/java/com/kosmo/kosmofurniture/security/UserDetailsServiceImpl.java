@@ -1,6 +1,6 @@
 package com.kosmo.kosmofurniture.security;
 
-import com.kosmo.kosmofurniture.domain.ApiMember;
+import com.kosmo.kosmofurniture.domain.MemberPrincipal;
 import com.kosmo.kosmofurniture.domain.Member;
 import com.kosmo.kosmofurniture.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +29,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(member.getRole()));
 
-        ApiMember apiMember = new ApiMember(member.getAccount(), member.getPwd(), roles);
-        apiMember.setEmail(member.getEmail());
-        apiMember.setFullName(member.getFullName());
-        apiMember.setThumbnailUrl(member.getThumbnailUrl());
+        MemberPrincipal memberPrincipal = new MemberPrincipal(member.getAccount(), member.getPwd(), roles);
+        memberPrincipal.setMemberId(member.getMemberId());
+        memberPrincipal.setAccount(member.getAccount());
+        memberPrincipal.setEmail(member.getEmail());
+        memberPrincipal.setFullName(member.getFullName());
+        memberPrincipal.setThumbnailUrl(member.getThumbnailUrl());
 
-        return apiMember;
+        return memberPrincipal;
 
 
     }

@@ -100,9 +100,7 @@
                 })
             }
         }
-
-
-
+        $('#productList').addClass('btn-info')
     </script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 </head>

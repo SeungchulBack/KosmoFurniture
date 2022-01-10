@@ -17,43 +17,51 @@
             <div class="form-group">
                 <label for="account" class="col-sm-2 control-label">계정명</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control input-large" name="account" id="account" placeholder="ID" required>
+                    <input type="text" class="form-control input-large" name="account" id="account" placeholder="ID"
+                           required>
+                    <button class="btn-dark mt-1" onclick="checkAccountId()">중복확인</button>
                 </div>
             </div>
             <div class="form-group">
                 <label for="fullName" class="col-sm-2 control-label">성명</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control input-large" name="fullName" id="fullName" placeholder="name" required>
+                    <input type="text" class="form-control input-large" name="fullName" id="fullName" placeholder="name"
+                           required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="pwd" class="col-sm-2 control-label">비밀번호</label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control input-large" name="pwd" id="pwd" placeholder="Password" data-minlength="6" required>
+                    <input type="password" class="form-control input-large" name="pwd" id="pwd" placeholder="Password"
+                           data-minlength="6" required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="email" class="col-sm-2 control-label">이메일</label>
                 <div class="col-sm-10">
-                    <input type="email" class="form-control input-large" name="email" id="email" placeholder="이메일" required>
+                    <input type="email" class="form-control input-large" name="email" id="email" placeholder="이메일"
+                           required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="phone" class="col-sm-2 control-label">휴대폰</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control input-large" name="phone" id="phone" placeholder="01012345678" required>
+                    <input type="text" class="form-control input-large" name="phone" id="phone"
+                           placeholder="01012345678" required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="address" class="col-sm-8 control-label">주소</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control input-large" name="address" id="address" placeholder="주소" required>
+                    <input type="text" class="form-control input-large" name="address" id="address" placeholder="주소"
+                           required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="ssn" class="col-sm-8 control-label">주민등록번호(000000-0000000)</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control input-large" name="ssn" id="ssn" placeholder="주민등록번호" required>
+                    <input type="text" class="form-control input-large" name="ssn" id="ssn" placeholder="주민등록번호"
+                           required>
                 </div>
             </div>
             <div class="form-group">
@@ -71,4 +79,33 @@
     </div>
 </div>
 </body>
+<script>
+    var token = '${_csrf.parameterName}';
+    var header = '${_csrf.token}';
+
+    function checkAccountId() {
+        var accountCheckUrl = '/members/check/' + $('#account').val()
+        $.ajax({
+            url: accountCheckUrl,
+            type: 'get',
+            beforeSend: function (xhr) {
+                <%--xhr.setRequestHeader(${_csrf.headerName}, ${_csrf.token});--%> //오류난다 왜인지 모르겠지만
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                console.log(data)
+                var result = JSON.parse(data);
+                if (result.accountExists == "true") {
+                    alert("아이디가 이미 존재합니다! 다른 아이디를 입력해주세요!");
+                    $('#account').val("")
+                } else {
+                    alert("사용가능한 아이디입니다!");
+                }
+            }
+        })
+    }
+</script>
+<script src="/js/jquery-3.3.1.js">
+<script src="/js/bootstrap.min.js"></script>
+</script>
 </html>

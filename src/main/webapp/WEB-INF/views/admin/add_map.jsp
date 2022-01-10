@@ -178,6 +178,7 @@
                 }
             }).open();
     }
+    $('#locationForm').addClass('btn-info')
 </script>
 <script src="/js/bootstrap.min.js"></script>
 </html>
