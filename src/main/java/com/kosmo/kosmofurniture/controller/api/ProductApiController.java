@@ -37,7 +37,7 @@ public class ProductApiController {
         return ResponseEntity.ok().body(productService.getProductsByCategory(category));
     }
 
-    @GetMapping("/cart")
+    @PostMapping("/cart")
     public ResponseEntity<String> addCart(@AuthenticationPrincipal MemberPrincipal principal, @RequestParam Long productId) {
         Long memberId = principal.getMemberId();
         Cart cart = Cart.builder()
