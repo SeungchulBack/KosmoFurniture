@@ -54,7 +54,7 @@ public class MybatisTests {
             member.setSsn("930202-1112211");
             member.setCreatedAt(LocalDateTime.now());
 
-            member = memberMapper.save(member);
+            memberMapper.save(member);
             log.debug(member.getMemberId().toString());
             log.debug(member.getFullName());
         }
