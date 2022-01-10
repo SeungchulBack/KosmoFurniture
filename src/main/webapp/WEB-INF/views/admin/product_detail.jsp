@@ -70,6 +70,8 @@
                 })
             }
         }
+
+        $('#productList').addClass('btn-info')
     </script>
     <style>
         .carousel-inner > .item > img {

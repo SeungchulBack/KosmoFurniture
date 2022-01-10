@@ -2,6 +2,7 @@ package com.kosmo.kosmofurniture.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,14 +12,14 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 @ControllerAdvice
 @Slf4j
-public class CommonErrorControllerAdvice {
+public class ErrorControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView CommonError(Exception e) {
         log.debug("Exception : {}", e.getClass().getName());
 
-        ModelAndView mav = new ModelAndView("common_error");
+        ModelAndView mav = new ModelAndView("error");
         mav.addObject("errorCode", HttpStatus.INTERNAL_SERVER_ERROR.value());
         mav.addObject("errorStatus", HttpStatus.INTERNAL_SERVER_ERROR);
         mav.addObject("errorMessage", "서버에 오류가 발생하였습니다.");
@@ -37,6 +38,18 @@ public class CommonErrorControllerAdvice {
         return mav;
     }
 
+    @ExceptionHandler(NoCartItemException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ModelAndView orderError(Exception e) {
+        log.debug("Exception : {}", e.getClass().getName());
+
+        ModelAndView mav = new ModelAndView("error");
+        mav.addObject("errorCode", HttpStatus.BAD_REQUEST.value());
+        mav.addObject("errorStatus", HttpStatus.BAD_REQUEST);
+        mav.addObject("errorMessage", e.getMessage());
+        return mav;
+    }
+
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ModelAndView notFoundError(Exception e) {
@@ -46,6 +59,18 @@ public class CommonErrorControllerAdvice {
         mav.addObject("errorCode", HttpStatus.NOT_FOUND.value());
         mav.addObject("errorStatus", HttpStatus.NOT_FOUND);
         mav.addObject("errorMessage", "요청하신 페이지를 찾을 수 없습니다.");
+
+        return mav;
+    }
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ModelAndView AccessDeniedError(Exception e) {
+        log.debug("Exception : {}", e.getClass().getName());
+
+        ModelAndView mav = new ModelAndView("error");
+        mav.addObject("errorCode", HttpStatus.FORBIDDEN.value());
+        mav.addObject("errorStatus", HttpStatus.FORBIDDEN);
+        mav.addObject("errorMessage", "접근할 수 없는 URI입니다.");
         return mav;
     }
 }

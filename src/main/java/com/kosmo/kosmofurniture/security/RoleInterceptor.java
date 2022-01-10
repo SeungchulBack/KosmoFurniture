@@ -11,11 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Slf4j
-public class jwtUsernamePasswordTokenInterceptor implements HandlerInterceptor {
+public class RoleInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         log.debug("Authentication : {}", Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication()).map(Authentication::toString).orElse("null"));
+
         log.debug("authority : {}", Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication()).map(Authentication::getAuthorities).map(grantedAuthorities -> grantedAuthorities.toString()).orElse("null"));
 
         return true;

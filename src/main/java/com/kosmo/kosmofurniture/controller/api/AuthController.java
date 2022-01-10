@@ -1,6 +1,6 @@
 package com.kosmo.kosmofurniture.controller.api;
 
-import com.kosmo.kosmofurniture.domain.ApiMember;
+import com.kosmo.kosmofurniture.domain.MemberPrincipal;
 import com.kosmo.kosmofurniture.domain.LoginDto;
 import com.kosmo.kosmofurniture.domain.Member;
 import com.kosmo.kosmofurniture.domain.TokenDto;
@@ -42,7 +42,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> authorize(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginDto) {
 
         log.debug("loginDto account : {}", loginDto.getAccount());
 
@@ -52,9 +52,10 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginDto.getAccount(), loginDto.getPwd());
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        log.debug("ApiMember 이름 : {}", ((ApiMember) authentication.getPrincipal()).getFullName());
+        log.debug("ApiMember 이름 : {}", ((MemberPrincipal) authentication.getPrincipal()).getFullName());
 
         String jwt = tokenProvider.createToken(authentication);
 

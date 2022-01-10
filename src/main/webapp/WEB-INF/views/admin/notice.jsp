@@ -140,6 +140,6 @@
 
         location.href = "/admin/notice?pageNum=" + page + "&pageSize=" + pageSize;
     }
-
+    $('#noticeList').addClass('btn-info')
 </script>
 </html>

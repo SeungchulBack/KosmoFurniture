@@ -1,6 +1,10 @@
 package com.kosmo.kosmofurniture.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.kosmo.kosmofurniture.domain.Member;
+import com.kosmo.kosmofurniture.domain.SearchDto;
 import com.kosmo.kosmofurniture.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
@@ -9,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.cors.CorsConfiguration;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,6 +35,7 @@ public class MemberService {
         member.setPwd(encodedPassword);
         member.setCreatedAt(LocalDateTime.now());
         Long savedId = member.getMemberId();
+        memberMapper.save(member);
         return savedId;
     }
 
@@ -45,11 +51,16 @@ public class MemberService {
         return member;
     }
 
-    public Member getSingleMember(Long memberId) {
-        return memberMapper.findById(memberId);
+    public boolean checkAccount(String account) {
+        Member member = memberMapper.findByAccount(account);
+        return (member == null) ? false : true;
     }
 
-    public Member getMemberBySsn(String ssn) {
-        return memberMapper.findBySsn(ssn);
+    public Page<Member> getmembersWithSearchAndPagination(HttpServletRequest request) {
+        PageHelper.startPage(request);
+        SearchDto searchDto = new SearchDto();
+        searchDto.setSearch(request.getParameter("search"));
+        searchDto.setSection(request.getParameter("section"));
+        return memberMapper.findWithSearchAndPagination(searchDto);
     }
 }
