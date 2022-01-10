@@ -11,37 +11,41 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" 
     crossorigin="anonymous"/>
     <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+      rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
       integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
       crossorigin="anonymous"/>
 </head>
 
 <body>
-  <form action="" method="post">
-    <fieldset>
-      <legend>로그인</legend>
-      <ul>
-        <li>아이디<input type="text"></li>
-        <li>비밀번호<input type="password"></li>
-        <li><a href="#">로그인</a></li>
-        <li><input type="checkbox">아이디 저장</li>
-        </ul>
-      <ul>
-        <li>아이디를 잊으셨나요?<a href="#">아이디 찾기</a></li>
-        <li>비밀번호를 잊으셨나요?<a href="#">비밀번호 찾기</a></li>
-      </ul>
-    </fieldset>
-  </form>
   <!--Login Form 구현-->
   <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
+      <div class="login-form">
+        <h1>WelCome!</h1>
+        <form id ="loginForm">
+            <div class="int-area">
+                <input type="text" name="id" id="account" autocomplete="off" required>
+                <label for ="id">USER Name</label>
+            </div>
+            <div class="int-area">
+                <input type="password" name="pw" id="pwd" autocomplete="off" required>
+                <label for ="pw">PassWord</label>
+            </div>
+            <div class="btn-area">
+                <button  id="login">Login</button>            
+            </div>
+        </form>
+        <div class="caption">
+            <a href="">Forgot Password?</a>
+        </div>
+    </div>
 
-      </div>
+      
     </div>
   </div>
+    </div>
     <!--Header Start-->
     <section id="header">
  
@@ -95,7 +99,7 @@
                     </div>
                     <h6>10000원</h6>
                 </div>
-                <a href="http://121.88.86.169:8484/api/products/cart?productId=3"><i class="fas fa-shopping-bag cart"></i></a>
+                <a href="#"><i class="fas fa-shopping-bag cart"></i></a>
             </div>
 
             <div class="pro">
@@ -241,6 +245,7 @@
         </div>
       </div> -->
     
+    <!--Shop Page-->
     <!--Footer-->
     <section id="banner" class="section-m1">
         <h4>Repair Services</h4>
