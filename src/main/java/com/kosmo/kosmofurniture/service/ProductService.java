@@ -3,6 +3,7 @@ package com.kosmo.kosmofurniture.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.kosmo.kosmofurniture.domain.Product;
+import com.kosmo.kosmofurniture.domain.ProductImage;
 import com.kosmo.kosmofurniture.domain.SearchDto;
 import com.kosmo.kosmofurniture.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,16 @@ public class ProductService {
 
     public List<Product> getAllProducts() {
         return productMapper.findAll();
+    }
+
+    public List<Product> getAllProductsWithImage() {
+        List<Product> productList = productMapper.findAll();
+
+        for (Product product : productList) {
+            ProductImage firstImage = productImageService.getFirstImage(product.getProductId());
+            product.setProductImage(firstImage);
+        }
+        return productList;
     }
 
     public List<Product> getProductsByCategory(String category) {

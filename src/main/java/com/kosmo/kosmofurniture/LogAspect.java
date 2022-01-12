@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class LogAspect {
-
     @Around("execution(* com.kosmo.kosmofurniture..*.*(..))")
     public Object logging(ProceedingJoinPoint pjp) throws Throwable {
         log.info("start - " + pjp.getSignature().getDeclaringTypeName() + " / " + pjp.getSignature().getName());
