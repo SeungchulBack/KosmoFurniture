@@ -247,8 +247,80 @@ public class AdminController {
     	
     	return mav;
     }
+    @PostMapping("/notice")
+    public ModelAndView addNotice(Notice notice) {
+
+        notice.setCreatedAt(LocalDateTime.now());
+        noticeMapper.save(notice);
+
+        return new ModelAndView("redirect:/admin/notice?pageNum=1&pageSize=5");
+    }
     
     
+    /**
+     * 공지등록 페이지
+     */
+    @GetMapping("/notice-write")
+    public ModelAndView noticeForm(HttpServletRequest request) {
+    	ModelAndView mav = new ModelAndView("admin/notice_write");
+    	
+    	return mav;
+    }
+    
+    /**
+     * 공지사항 뷰페이지
+     */
+    @GetMapping("/notice/{noticeId}")
+    public ModelAndView showNotice(@PathVariable Long noticeId, HttpServletRequest request) {
+
+        ModelAndView mav = new ModelAndView("admin/notice_view");
+
+        String referer = request.getHeader("REFERER");
+
+        log.debug(referer);
+
+        Notice notice = noticeMapper.findById(noticeId);
+        mav.addObject("notice", notice);
+
+        return mav;
+    }
+
+    /**
+     * 공지수정 뷰페이지
+     */
+    @GetMapping("notice/{noticeId}/update")
+    public ModelAndView editNoticeView(@PathVariable Long noticeId, HttpServletRequest request) {
+
+        Notice notice = noticeMapper.findById(noticeId);
+
+        ModelAndView mav = new ModelAndView("admin/notice_update");
+        mav.addObject("notice", notice);
+
+        return mav;
+    }
+
+    /**
+     * 상품수정 PUT 요청
+     */
+    @PutMapping("notice/update")
+    public ResponseEntity<String> editNotice(Notice notice) {
+
+        noticeMapper.update(notice);
+
+        return ResponseEntity.ok().body("{\"isUpdated\" : \"" + "true" + "\"}");
+    }
+    
+    /**
+     * 공지삭제 API
+     */
+    @DeleteMapping("/notice/{noticeId}/delete")
+    public ResponseEntity<String> deleteNotice(@PathVariable Long noticeId) {
+
+        log.debug("Controller : DELETE admin/notice/{noticeId}/delete");
+        noticeMapper.deleteById(noticeId);
+
+        return ResponseEntity.ok().body("{\"isDeleted\" : \"" + "true" + "\"}");
+    }
     
     
 }

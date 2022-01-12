@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
-    <title>관리자 상품등록페이지</title>
+    <title>관리자 상품수정페이지</title>
     <script src="/js/jquery-3.3.1.js"></script>
     <script src="/js/jquery.form.js"></script>
     <script src="/js/jquery.MultiFile.js"></script>
