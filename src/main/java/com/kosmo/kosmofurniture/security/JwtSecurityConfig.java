@@ -35,7 +35,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .expressionHandler(roleExpressionHandler)
-                .antMatchers("/api/products/**").hasRole("USER")
+                .antMatchers("/api/products/**").hasRole("ANONYMOUS")
                 .antMatchers("/api/hello").hasRole("ANONYMOUS")
                 .antMatchers("/api/hi").permitAll()
                 .antMatchers("/api/login").permitAll()

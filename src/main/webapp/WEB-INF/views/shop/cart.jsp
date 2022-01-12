@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,14 +64,21 @@
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a class="active" href="/shop/cart"><i class="fas fa-shopping-bag"></i></a></li>
-            <li><a href="" class="btn btn-default btn-rounded"
-                   data-toggle="modal" data-target="#modalLoginForm">
-                <i class="fas fa-user"></i></a></li>
+            <sec:authorize access="isAuthenticated()">
+                <li>
+                    <sec:authentication property="principal.fullName"/>님 환영합니다!
+                </li>
+            </sec:authorize>
+            <sec:authorize access="isAnonymous()">
+                <li><a href="" class="btn btn-default btn-rounded"
+                       data-toggle="modal" data-target="#modalLoginForm">
+                    <i class="fas fa-user"></i></a></li>
+            </sec:authorize>
             <form action="/logout" method="post">
                 <input type="hidden"
                        name="${_csrf.parameterName}"
                        value="${_csrf.token}"/>
-                <input class="nav-link text-light" type="submit" value="로그아웃">
+                <input class="nav-link text-light btn btn-secondary" type="submit" value="로그아웃">
             </form>
         </ul>
     </div>
@@ -113,7 +121,7 @@
                     type="hidden"
                     value="${_csrf.token}"
             />
-        <button class="btn btn-dark">주문하기</button>
+            <button class="btn btn-dark">주문하기</button>
         </form>
     </div>
 

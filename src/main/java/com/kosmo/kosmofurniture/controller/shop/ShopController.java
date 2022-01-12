@@ -26,13 +26,19 @@ public class ShopController {
     private final OrderMapper orderMapper;
 
     @GetMapping("/cart")
-    public ModelAndView cartView(@AuthenticationPrincipal MemberPrincipal principal) {
+    public ModelAndView cartView(
+            @AuthenticationPrincipal MemberPrincipal principal,
+            @RequestParam(required = false) String token) {
 
-        Long memberId = memberMapper.findByAccount(principal.getAccount()).getMemberId();
+        log.debug(principal.toString());
+        log.debug(token);
+
+        Long memberId = memberMapper.findByAccount(principal.getUsername()).getMemberId();
 
         List<CartDto> cartDtoList = cartMapper.findAllDtoByMemberId(memberId);
 
         ModelAndView mav = new ModelAndView("shop/cart");
+        if (token != null) mav.setViewName("redirect:/shop/cart");
         mav.addObject("cartDtoList", cartDtoList);
         return mav;
     }

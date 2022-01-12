@@ -12,6 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Optional;
 
 @Slf4j
 public class JwtAuthenticationFilter extends GenericFilterBean {
@@ -30,8 +31,14 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         String jwt = resolveToken(httpServletRequest);
         String requestURI = httpServletRequest.getRequestURI();
 
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            Authentication authentication = tokenProvider.getAuthentication(jwt);
+        String urlToken = servletRequest.getParameter("token");
+        log.debug("URL param token : {}", urlToken);
+
+        if (StringUtils.hasText(jwt) || StringUtils.hasText(urlToken)) {
+
+            String token = jwt == null ? urlToken : jwt;
+            tokenProvider.validateToken(token);
+            Authentication authentication = tokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             log.debug("Security Context에 {} 인증정보를 저장했습니다 ", SecurityContextHolder.getContext().getAuthentication());
             log.debug("Requested URI : {}", requestURI);
