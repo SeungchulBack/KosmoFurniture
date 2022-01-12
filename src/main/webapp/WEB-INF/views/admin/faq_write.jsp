@@ -49,7 +49,7 @@
                                 <input
                                         style="width: 25%"
                                         type="text"
-                                        name="writer"fhgfhgfhgf
+                                        name="writer"
                                         id="writer"
                                 />
                             </td>
