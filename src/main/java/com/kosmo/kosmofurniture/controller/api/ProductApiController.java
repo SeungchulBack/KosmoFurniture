@@ -29,7 +29,7 @@ public class ProductApiController {
     public ResponseEntity<List<Product>> getProducts() {
         log.debug("Authentication : {}", SecurityContextHolder.getContext().getAuthentication().toString());
         log.debug("authority : {}", SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
-        return ResponseEntity.ok().body(productService.getAllProducts());
+        return ResponseEntity.ok().body(productService.getAllProductsWithImage());
     }
 
     @GetMapping("/categories/{category}")

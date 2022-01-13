@@ -12,6 +12,7 @@
                     <a id="locationList" href="/admin/maps" class="nav-link active m-1">지점목록</a>
                     <a id="locationForm" href="/admin/map" class="nav-link active m-1">지점등록</a>
                     <a id="noticeList" href="/admin/notice?pageNum=1&pageSize=10" class="nav-link active m-1">공지사항</a>
+                    <a id="faqList" href="/admin/faq?pageNum=1&pageSize=10" class="nav-link active m-1">FAQ </a>
                 </div>
             </a>
             </li>

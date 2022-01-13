@@ -7,6 +7,7 @@ import com.kosmo.kosmofurniture.mapper.MapMarkerMapper;
 import com.kosmo.kosmofurniture.mapper.MemberMapper;
 import com.kosmo.kosmofurniture.mapper.NoticeMapper;
 import com.kosmo.kosmofurniture.mapper.ProductMapper;
+import com.kosmo.kosmofurniture.mapper.FAQMapper;
 import com.kosmo.kosmofurniture.service.MapMarkerService;
 import com.kosmo.kosmofurniture.service.MemberService;
 import com.kosmo.kosmofurniture.service.ProductImageService;
@@ -36,6 +37,7 @@ public class AdminController {
     private final MapMarkerMapper mapMarkerMapper;
     private final ProductMapper productMapper;
     private final NoticeMapper noticeMapper;
+    private final FAQMapper faqMapper;
     private final ProductImageService productImageService;
     private final ProductService productService;
     private final MapMarkerService mapMarkerService;
@@ -233,6 +235,9 @@ public class AdminController {
         return ResponseEntity.ok().body("{\"isDeleted\" : \"" + result + "\"}");
     }
     
+    
+    
+    
     /**
      * 공지등록 뷰페이지
      */
@@ -300,7 +305,7 @@ public class AdminController {
     }
 
     /**
-     * 상품수정 PUT 요청
+     * 공지수정 PUT 요청
      */
     @PutMapping("notice/update")
     public ResponseEntity<String> editNotice(Notice notice) {
@@ -318,6 +323,98 @@ public class AdminController {
 
         log.debug("Controller : DELETE admin/notice/{noticeId}/delete");
         noticeMapper.deleteById(noticeId);
+
+        return ResponseEntity.ok().body("{\"isDeleted\" : \"" + "true" + "\"}");
+    }
+    
+    
+    
+    
+    /**
+     * faq 등록 뷰페이지
+     */
+    @GetMapping("/faq")
+    public ModelAndView faqView(HttpServletRequest request) {
+    	ModelAndView mav = new ModelAndView("admin/faq");
+    	
+    	PageHelper.startPage(request);
+    	PageInfo<FAQ> pageInfo = PageInfo.of(faqMapper.findAll());
+    	mav.addObject("pageInfo", pageInfo);
+    	mav.addObject("faqList", pageInfo.getList());
+    	
+    	return mav;
+    }
+    @PostMapping("/faq")
+    public ModelAndView addFAQ(FAQ faq) {
+
+        faq.setCreatedAt(LocalDateTime.now());
+        faqMapper.save(faq);
+
+        return new ModelAndView("redirect:/admin/faq?pageNum=1&pageSize=5");
+    }
+    
+    
+    /**
+     * faq 등록 페이지
+     */
+    @GetMapping("/faq-write")
+    public ModelAndView faqForm(HttpServletRequest request) {
+    	ModelAndView mav = new ModelAndView("admin/faq_write");
+    	
+    	return mav;
+    }
+    
+    /**
+     * faq 뷰페이지
+     */
+    @GetMapping("/faq/{faqId}")
+    public ModelAndView showFAQ(@PathVariable Long faqId, HttpServletRequest request) {
+
+        ModelAndView mav = new ModelAndView("admin/faq_view");
+
+        String referer = request.getHeader("REFERER");
+
+        log.debug(referer);
+
+        FAQ faq = faqMapper.findById(faqId);
+        mav.addObject("faq", faq);
+
+        return mav;
+    }
+
+    /**
+     * faq 수정 뷰페이지
+     */
+    @GetMapping("faq/{faqId}/update")
+    public ModelAndView editFAQView(@PathVariable Long faqId, HttpServletRequest request) {
+
+        FAQ faq = faqMapper.findById(faqId);
+
+        ModelAndView mav = new ModelAndView("admin/faq_update");
+        mav.addObject("faq", faq);
+
+        return mav;
+    }
+
+    /**
+     * faq 수정 PUT 요청
+     */
+    @PutMapping("faq/update")
+    public ResponseEntity<String> editFAQ(FAQ faq) {
+
+        faqMapper.update(faq);
+
+        return ResponseEntity.ok().body("{\"isUpdated\" : \"" + "true" + "\"}");
+    }
+    
+    /**
+     * faq 삭제 API
+     */
+    @DeleteMapping("/faq/{faqId}/delete")
+    public ResponseEntity<String> deleteFAQ(@PathVariable Long faqId) {
+
+        log.debug("Controller : DELETE admin/faq/{faqId}/delete");
+        faqMapper.deleteById(faqId);
 
         return ResponseEntity.ok().body("{\"isDeleted\" : \"" + "true" + "\"}");
     }

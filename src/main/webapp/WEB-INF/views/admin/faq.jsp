@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>공지사항</title>
+    <title>FAQ</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
@@ -17,30 +17,34 @@
     <div class="row align-items-start">
         <jsp:include page="layout/left_nav.jsp" />
         <div class="col-10">
-				<a class="btn btn-primary mr-5 my-1" href="/admin/notice-write" role="button">공지등록</a>
+				<a class="btn btn-primary mr-5 my-1" href="/admin/faq-write" role="button">FAQ 등록</a>
                 <table class="table">
                     <thead class="thead-light">
                     <tr class="text-center">
-                        <th class="col-3" scope="col">번호</th>
-                        <th class="col-3" scope="col">제목</th>
+                        <th class="col-2" scope="col">번호</th>
+                        <th class="col-2" scope="col">제목</th>
                         <th class="col-3" scope="col">내용</th>
+                        <th class="col-2" scope="col">글쓴이</th>
                         <th class="col-3" scope="col">작성일</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="notice" items="${noticeList}">
+                    <c:forEach var="faq" items="${faqList}">
                         <tr>
                             <td class="text-center">
-                                    ${notice.noticeId}
+                                    ${faq.faqId}
                             </td>
                             <td class="text-center">
-                                <a href="/admin/notice/${notice.noticeId}">${notice.title}</a>
+                                <a href="/admin/faq/${faq.faqId}">${faq.title}</a>
                             </td>
                             <td class="td-description text-center">
-                                    ${notice.content}
+                                    ${faq.content}
                             </td>
                             <td class="text-center">
-                                    ${notice.createdAt}
+                                    ${faq.writer}
+                            </td>
+                            <td class="text-center">
+                                    ${faq.createdAt}
                             </td>
                         </tr>
                     </c:forEach>
@@ -136,8 +140,8 @@
 
         if (page == 0) page = 1; //0페이지로 가면 안되기때문에 page가 0이면 1로 바꿔준다
 
-        location.href = "/admin/notice?pageNum=" + page + "&pageSize=" + pageSize;
+        location.href = "/admin/faq?pageNum=" + page + "&pageSize=" + pageSize;
     }
-    $('#notice').addClass('btn-info')
+    $('#faq').addClass('btn-info')
 </script>
 </html>

@@ -9,7 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -74,8 +73,14 @@ public class TokenProvider {
         String role = claims.get("role").toString();
         roles.add(new SimpleGrantedAuthority(role));
 
+        log.debug("account : {}", claims.get("account").toString());
+
         MemberPrincipal principal = new MemberPrincipal(claims.get("account").toString(), "", roles);
-        principal.setMemberId(Long.valueOf(String.valueOf(claims.get("memberId")))); // claim.get()값이 Integer로 나와서 좀 지저분해졌다.
+        principal.setMemberId(Long.valueOf((int)claims.get("memberId"))); // claim.get()값이 Integer로 나와서 좀 지저분해졌다.
+        principal.setAccount(claims.get("account").toString());
+        principal.setFullName(claims.get("fullName").toString());
+        principal.setEmail(claims.get("email").toString());
+        if (claims.get("thumbnailUrl") != null) principal.setThumbnailUrl(claims.get("thumbnailUrl").toString());
 
         log.debug("principal : {}", principal);
 
