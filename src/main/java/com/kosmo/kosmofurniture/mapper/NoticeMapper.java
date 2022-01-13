@@ -14,4 +14,6 @@ public interface NoticeMapper {
     List<Notice> findAll();
     void deleteAll();
     void setAutoIncToZero();
+    void update(Notice notice);
+    void deleteById(Long noticeId);
 }

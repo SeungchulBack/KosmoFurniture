@@ -24,6 +24,7 @@ caption {
 
 .board_list tr .tit a {
     text-decoration: none;
+    color: black;
 }
 .board_list tr {
     border-bottom: 1px solid #ccc;

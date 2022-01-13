@@ -4,6 +4,7 @@ import com.kosmo.kosmofurniture.domain.Member;
 import com.kosmo.kosmofurniture.mapper.MemberMapper;
 import com.kosmo.kosmofurniture.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/members")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -37,11 +39,18 @@ public class MemberController {
 
     @GetMapping("/{memberId}")
     public ResponseEntity<Member> getSingleMember(@PathVariable Long memberId) {
-        return ResponseEntity.ok().body(memberService.getSingleMember(memberId));
+        return ResponseEntity.ok().body(memberMapper.findById(memberId));
+    }
+
+    @GetMapping("/check/{account}")
+    public ResponseEntity<String> accountCheck(@PathVariable String account) {
+
+        boolean exists = memberService.checkAccount(account);
+        return ResponseEntity.ok().body("{\"accountExists\" : \"" + exists + "\"}");
     }
 
     @GetMapping("/ssn/{ssn}")
     public ResponseEntity<Member> getSingleMember(@PathVariable String ssn) {
-        return ResponseEntity.ok().body(memberService.getMemberBySsn(ssn));
+        return ResponseEntity.ok().body(memberMapper.findBySsn(ssn));
     }
 }

@@ -22,4 +22,18 @@
     <update id="setAutoIncToZero">
         ALTER TABLE `notice` AUTO_INCREMENT = 1
     </update>
+    
+    <update id="update">
+      update notice
+    <set>
+            title = #{title},
+            content = #{content}
+    </set>
+        where notice_id = #{noticeId}
+    </update>
+    
+    <delete id="deleteById">
+        delete from notice where notice_id = #{noticeId}
+    </delete>
+    
 </mapper>

@@ -7,12 +7,12 @@ spring:
     username: kosmo_furniture
     password: 1234
 
-  # 요청 url이 존재하지 않을때 오류일으켜서 @ControllerAdvice에서 캐치할수 있게 하기 위한 설정
+  # 요청 url이 존재하지 않을때 오류일으켜서 @ControllerAdvice에서 캐치할수 있게 하기 위한 설정 (404 Not Found)
   web:
     resources:
       add-mappings: false
   mvc:
-    # 요청 url이 존재하지 않을때 오류일으켜서 @ControllerAdvice에서 캐치할수 있게 하기 위한 설정
+    # 요청 url이 존재하지 않을때 오류일으켜서 @ControllerAdvice에서 캐치할수 있게 하기 위한 설정 (404 Not Found)
     throw-exception-if-no-handler-found: true
   #  Spring boot에서 JSP사용하기위한 설정
     view:
@@ -72,4 +72,5 @@ mybatis:
 logging:
   level:
     com.kosmo.kosmofurniture : debug
-    com.kosmo.kosmofurniture.mapper : warn
+    com.kosmo.kosmofurniture.mapper : debug
+    org.springframework.security: debug

@@ -169,6 +169,7 @@
     </div>
 </div>
 </body>
+<script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script>
 
@@ -183,6 +184,8 @@
 
         location.href = "/admin/products?section=" + section + "&search=" + search + "&pageNum=" + page + "&pageSize=" + pageSize;
     }
+
+    $('#productList').addClass("btn-info")
 
 </script>
 </html>

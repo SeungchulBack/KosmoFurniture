@@ -16,15 +16,15 @@
 <div class="container-fluid">
     <div class="row align-items-start">
         <jsp:include page="layout/left_nav.jsp" />
-        <div class="col">
-			<div class="container">
+        <div class="col-10">
+				<a class="btn btn-primary mr-5 my-1" href="/admin/notice-write" role="button">공지등록</a>
                 <table class="table">
                     <thead class="thead-light">
                     <tr class="text-center">
-                        <th class="col-1" scope="col">번호</th>
-                        <th class="col-1" scope="col">제목</th>
-                        <th class="col-4" scope="col">내용</th>
-                        <th class="col-1" scope="col">작성일</th>
+                        <th class="col-3" scope="col">번호</th>
+                        <th class="col-3" scope="col">제목</th>
+                        <th class="col-3" scope="col">내용</th>
+                        <th class="col-3" scope="col">작성일</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -119,8 +119,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
         </div>
     </div>
 </div>
@@ -140,6 +138,6 @@
 
         location.href = "/admin/notice?pageNum=" + page + "&pageSize=" + pageSize;
     }
-
+    $('#noticeList').addClass('btn-info')
 </script>
 </html>

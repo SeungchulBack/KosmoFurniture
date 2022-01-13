@@ -181,4 +181,7 @@
 </div>
 </body>
 <script src="/js/bootstrap.min.js"></script>
+<script>
+    $('#productForm').addClass('btn-info')
+</script>
 </html>

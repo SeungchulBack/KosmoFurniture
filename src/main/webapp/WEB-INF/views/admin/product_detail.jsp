@@ -14,49 +14,19 @@
     <script src="/js/jquery-3.3.1.js">
     </script>
     <script>
-        <%--$(function () {--%>
-        <%--    $(".favorite").click(function () {--%>
-        <%--        $.ajax({--%>
-        <%--            url: './check_favorite_like.zoo',--%>
-        <%--            type: 'post',--%>
-        <%--            data: {--%>
-        <%--                'favorite': $("#favorite").val(),--%>
-        <%--                'board_num': '${board_num}'--%>
-        <%--            },--%>
-        <%--            success: function (data) {--%>
-        <%--                console.log(data)--%>
-        <%--                if (data == 1) {--%>
-        <%--                    alert("즐겨찾기 추가 했습니다.");--%>
-        <%--                    $(".favorite").attr("src", "./resources/image/icon/star_on.png");--%>
-        <%--                    $("#favorite").val("none");--%>
-
-        <%--                } else if (data == 0) {--%>
-        <%--                    alert("즐겨 찾기 해제 했습니다.")--%>
-        <%--                    $(".favorite").attr("src", "./resources/image/icon/star_off.png");--%>
-        <%--                    $("#favorite").val("favorite");--%>
-        <%--                }--%>
-        <%--            }--%>
-        <%--        })--%>
-        <%--    })--%>
-        <%--})--%>
-
         //삭제 확인 후 삭제하기
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
 
         function check_delete() {
-            var answer = confirm("정말 삭제하시 겠습니까?");
+            var answer = confirm("정말 삭제하시겠습니까?");
             if (answer) {
                 $.ajax({
                     url: '/admin/products/${product.productId}/delete',
                     type: 'delete',
                     beforeSend : function(xhr){
-                        <%--xhr.setRequestHeader(${_csrf.headerName}, ${_csrf.token});--%>
                         xhr.setRequestHeader(header, token);
                     },
-                    <%--data: {--%>
-                    <%--    'productId': '${product.productId}'--%>
-                    <%--},--%>
                     success: function (data) {
                         console.log(data)
                         var result = JSON.parse(data);
@@ -70,6 +40,8 @@
                 })
             }
         }
+
+        $('#productList').addClass('btn-info')
     </script>
     <style>
         .carousel-inner > .item > img {
@@ -112,50 +84,14 @@
                                 <!-- 이미지 들어가는 부분 start-->
                                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 
-                                        <%--                        <ol class="carousel-indicators">--%>
-                                        <%--                            <c:forEach var="image" items="${images}" varStatus="a">--%>
-                                        <%--                                <c:choose>--%>
-                                        <%--                                    <c:when test="${a.index==0 }">--%>
-                                        <%--                                        <li data-target="#carouselExampleIndicators" data-slide-to="${a.index }"--%>
-                                        <%--                                            class="active"></li>--%>
-                                        <%--                                    </c:when>--%>
-                                        <%--                                    <c:otherwise>--%>
-                                        <%--                                        <li data-target="#carouselExampleIndicators" data-slide-to="${a.index }"></li>--%>
-                                        <%--                                    </c:otherwise>--%>
-                                        <%--                                </c:choose>--%>
-                                        <%--                            </c:forEach>--%>
-                                        <%--                        </ol>--%>
-
                                     <div class="carousel-inner">
                                         <c:out value="이미지 갯수 : ${images.size()}"></c:out>
                                         <c:forEach var="image" items="${images}" varStatus="a">
-
-                                            <%--                                <c:choose>--%>
-                                            <%--                                    <c:when test="${a.index==0 }">--%>
-                                            <%--                                        <div class="item active">--%>
-                                            <%--                                            <img class="d-block w-50" src="/files/${image.dbFileName}">--%>
-                                            <%--                                        </div>--%>
-                                            <%--                                    </c:when>--%>
-                                            <%--                                    <c:otherwise>--%>
                                             <div class="item active">
                                                 <img class="d-block w-50" src="/files/${image.dbFileName}">
                                             </div>
-                                            <%--                                    </c:otherwise>--%>
-                                            <%--                                </c:choose>--%>
-
                                         </c:forEach>
                                     </div>
-
-                                        <%--                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"--%>
-                                        <%--                           data-slide="prev">--%>
-                                        <%--                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
-                                        <%--                            <span class="sr-only">Previous</span>--%>
-                                        <%--                        </a>--%>
-                                        <%--                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"--%>
-                                        <%--                           data-slide="next">--%>
-                                        <%--                            <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
-                                        <%--                            <span class="sr-only">Next</span>--%>
-                                        <%--                        </a>--%>
                                 </div>
                                 <!-- 이미지 들어가는 부분 end-->
                             </c:if>
@@ -167,14 +103,11 @@
                                 <input type="button" value='수정하기' onclick="location.href='/admin/products/${product.productId}/update'"
                                        class="btn btn-info m-1">
                                 <input type="button" onclick="check_delete()" value="삭제하기" class="btn btn-info m-1">
-                                <input type="button" value='일반삭제' onclick="location.href='/admin/products/delete-${product.productId}'"
-                                       class="btn btn-info m-1">
                                 <input type="button" onclick="history.back()" value="뒤로가기" class="btn btn-info m-1">
                             </div>
                         </td>
                     </tr>
                 </table>
-
             </div>
         </div>
     </div>
