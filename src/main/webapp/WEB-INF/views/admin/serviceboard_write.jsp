@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ 작성</title>
+    <title>고객질문 작성</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
@@ -22,9 +22,9 @@
 			<div class="table-responsive">
                 <form
                         method="post"
-                        action="/admin/faq"
+                        action="/admin/serviceboard"
                         enctype="multipart/form-data"
-                        class="faq"
+                        class="serviceboard"
                 >
                     <input
                             name="${_csrf.parameterName}"
@@ -67,8 +67,23 @@
 			                    ></textarea>
                             </td>
                         </tr>
+                        <!-- 
+                        <tr>
+                            <td>memberId</td>
+                            <td>
+                                <input
+                                        style="width: 25%"
+                                        type="hidden"
+                                        name="writer"
+                                        id="writer"
+                                        value="${principal.memberId}"
+                                        readonly
+                                />
+                            </td>
+                        </tr>
+                        -->
                     </table>
-                    <div id="faq">
+                    <div id="serviceboard">
                         <input
                                 type="submit"
                                 value="등록"

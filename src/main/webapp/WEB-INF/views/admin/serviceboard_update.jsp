@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
-    <title>관리자 FAQ수정페이지</title>
+    <title>관리자 고객질문 수정페이지</title>
     <script src="/js/jquery-3.3.1.js"></script>
     <script src="/js/jquery.form.js"></script>
     <script src="/js/jquery.MultiFile.js"></script>
@@ -19,14 +19,14 @@
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
 
-        function updateFAQ() {
+        function updateServiceBoard() {
             var answer = confirm("수정하시겠습니까?");
 
             let title = $("#title").val();
             let content = $("#content").val();
 
-            let faqData = {
-                'faqId': '${faq.faqId}',
+            let serviceboardData = {
+                'serviceboardId': '${serviceboard.serviceboardId}',
                 'title': title,
                 'content': content
             };
@@ -35,22 +35,22 @@
 
             if (answer) {
                 $.ajax({
-                    url: '/admin/faq/update',
+                    url: '/admin/serviceboard/update',
                     type: 'put',
-                    data: faqData,
+                    data: serviceboardData,
                     beforeSend : function(xhr){
                         xhr.setRequestHeader(header, token);
                     },
                     success: function (data) {
 
-                        console.log("faq ajax succeed")
+                        console.log("serviceboard ajax succeed")
 
                         $("form").submit();
 
                         console.log(data)
                         var result = JSON.parse(data);
                         if (result.isUpdated == "true") {
-                            alert("FAQ가 수정되었습니다.");
+                            alert("고객질문이 수정되었습니다.");
                             history.back(3);
                         } else {
                             alert("오류가 발생했습니다.");
@@ -59,7 +59,7 @@
                 })
             }
         }
-        $('#faq').addClass('btn-info')
+        $('#serviceboard').addClass('btn-info')
     </script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 </head>
@@ -82,7 +82,7 @@
                                         name="title"
                                         id="title"
                                         class="board_input_box"
-                                        value="${faq.title}"
+                                        value="${serviceboard.title}"
                                 />
                             </td>
                         </tr>
@@ -95,14 +95,14 @@
                             name="content"
                             id="content"
                             class="board_input_box"
-                    >${faq.content}</textarea>
+                    >${serviceboard.content}</textarea>
                             </td>
                         </tr>
                     </table>
-                    <div id="faq">
+                    <div id="serviceboard">
                         <input
                                 type="button"
-                                onclick="updateFAQ()"
+                                onclick="updateServiceBoard()"
                                 value="저장하기"
                                 class="input_button btn btn-info"
                         >

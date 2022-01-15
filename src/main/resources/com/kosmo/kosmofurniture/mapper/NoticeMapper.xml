@@ -25,11 +25,11 @@
     
     <update id="update">
       update notice
-    <set>
+    	<set>
             title = #{title},
             content = #{content}
-    </set>
-        where notice_id = #{noticeId}
+    	</set>
+      where notice_id = #{noticeId}
     </update>
     
     <delete id="deleteById">

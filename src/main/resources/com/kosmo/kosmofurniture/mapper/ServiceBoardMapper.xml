@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.kosmofurniture.mapper.ServiceBoardMapper">
+    <insert id="save" >
+        INSERT `service_board` (service_board_id, title, writer, content, created_at, member_id, answer_flag) VALUES 
+        	(#{serviceboardId}, #{title}, #{writer}, #{content}, #{createdAt}, #{memberId}, #{answerFlag})
+    </insert>
+
+    <select id="findById" resultType="serviceboard">
+        SELECT * from `service_board` where service_board_id = #{serviceboardId}
+    </select>
+    
+    <select id="findAll" resultType="serviceboard">
+    	SELECT * from `service_board` 
+    </select>
+    
+    <delete id="deleteAll">
+        delete from `service_board`
+    </delete>
+
+    <update id="setAutoIncToZero">
+        ALTER TABLE `service_board` AUTO_INCREMENT = 1
+    </update>
+    
+    <update id="update">
+      update service_board
+    	<set>
+            title = #{title},
+            content = #{content}
+            <!-- created_at = #{createdAt} -->
+    	</set>
+      where service_board_id = #{serviceboardId}
+    </update>
+    
+    <delete id="deleteById">
+        delete from service_board where service_board_id = #{serviceboardId}
+    </delete>
+    
+</mapper>
