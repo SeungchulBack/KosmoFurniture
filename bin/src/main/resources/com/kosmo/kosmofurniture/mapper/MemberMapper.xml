@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.kosmofurniture.mapper.MemberMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="memberId">
+        INSERT member (account, full_name, pwd, email, phone, address, ssn, created_at, role, thumbnail_url, social_login_id) VALUES (#{account}, #{fullName}, #{pwd}, #{email}, #{phone}, #{address}, #{ssn}, #{createdAt}, #{role}, #{thumbnailUrl}, #{socialLoginId})
+    </insert>
+
+
+    <select id="findWithSearchAndPagination" resultType="member">
+        SELECT * from member
+        <where>
+            <if test="section == 'fullname'">
+                full_name LIKE CONCAT('%',#{search},'%')//
+            </if>
+            <if test="section == 'email'">
+                email LIKE CONCAT('%',#{search},'%')
+            </if>
+            <if test="section == 'phone'">
+                phone LIKE CONCAT('%',#{search},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findById" resultType="member">
+        SELECT * from member where member_id = #{memberId}
+    </select>
+
+    <select id="findByAccount" resultType="member">
+        SELECT * from member where account = #{account}
+    </select>
+
+    <select id="findAll" resultType="member">
+        SELECT * from member
+    </select>
+
+    <select id="findBySsn" resultType="member">
+        SELECT * from member where ssn = #{ssn}
+    </select>
+
+    <delete id="deleteAll">
+        delete from member
+    </delete>
+
+    <update id="setAutoIncToZero">
+        ALTER TABLE member AUTO_INCREMENT = 1
+    </update>
+</mapper>
