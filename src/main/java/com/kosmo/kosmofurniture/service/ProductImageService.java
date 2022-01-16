@@ -36,12 +36,8 @@ public class ProductImageService {
     @Transactional
     public void save(List<MultipartFile> uploadfiles, Long productId) {
 
-        log.debug("uploadfiles == null : {}", uploadfiles == null );
-//        log.debug("uploadfiles empty? : {}", uploadfiles.isEmpty());
-
         ProductImage productImage = new ProductImage();
-        if (uploadfiles == null) return;
-
+        if (uploadfiles == null || uploadfiles.get(0).isEmpty()) return;
 
         /* 업로드파일이 있는지 체크 */
         if (!uploadfiles.isEmpty()) {

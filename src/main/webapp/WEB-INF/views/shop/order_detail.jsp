@@ -71,6 +71,7 @@
 </section>
 <!--Header End-->
 <div class="jumbotron m-4">
+    <h3 class="text-center mb-4 mt-n4 text-secondary">주문 상세 내역</h3>
     <table class="table">
         <thead class="thead-light">
         <tr class="text-center">

@@ -31,8 +31,6 @@
                 'content': content
             };
 
-            let formData = new FormData();
-
             if (answer) {
                 $.ajax({
                     url: '/admin/notice/update',
@@ -44,8 +42,6 @@
                     success: function (data) {
 
                         console.log("notice ajax succeed")
-
-                        $("form").submit();
 
                         console.log(data)
                         var result = JSON.parse(data);
@@ -67,7 +63,7 @@
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container-fluid">
-    <div class="row align-items-start">
+    <div class="row">
         <jsp:include page="layout/left_nav.jsp"/>
         <div class="col">
             <div class="table-responsive">
@@ -77,11 +73,10 @@
                             <td>제목</td>
                             <td>
                                 <input
-                                        style="width: 100%"
                                         type="text"
                                         name="title"
                                         id="title"
-                                        class="board_input_box"
+                                        class="w-100"
                                         value="${notice.title}"
                                 />
                             </td>
@@ -90,11 +85,10 @@
                             <td>내용</td>
                             <td>
                     <textarea
-                            style="resize: none; width: 100%"
                             rows="10"
                             name="content"
                             id="content"
-                            class="board_input_box"
+                            class="w-100"
                     >${notice.content}</textarea>
                             </td>
                         </tr>

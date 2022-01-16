@@ -16,7 +16,7 @@
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container-fluid">
-    <div class="row align-items-start">
+    <div class="row">
         <jsp:include page="layout/left_nav.jsp" />
         <div class="col-10">
 			<div class="table-responsive">
@@ -24,7 +24,6 @@
                         method="post"
                         action="/admin/faq"
                         enctype="multipart/form-data"
-                        class="faq"
                 >
                     <input
                             name="${_csrf.parameterName}"
@@ -36,10 +35,10 @@
                             <td>제목</td>
                             <td>
                                 <input
-                                        style="width: 25%"
                                         type="text"
                                         name="title"
                                         id="title"
+                                        class="w-100"
                                 />
                             </td>
                         </tr>
@@ -47,12 +46,11 @@
                             <td>글쓴이</td>
                             <td>
                                 <input
-                                        style="width: 25%"
                                         type="text"
                                         name="writer"
                                         id="writer"
-                                        value="${principal.account}"
-                                        readonly
+
+                                        class="w-100"
                                 />
                             </td>
                         </tr>
@@ -60,24 +58,24 @@
                             <td>내용</td>
                             <td>
 			                    <textarea
-			                            style="resize: none; width: 100%"
 			                            rows="10"
 			                            name="content"
 			                            id="content"
+                                        class="w-100"
 			                    ></textarea>
                             </td>
                         </tr>
                     </table>
-                    <div id="faq">
+                    <div class="d-flex justify-content-center">
                         <input
                                 type="submit"
                                 value="등록"
-                                class="input_button btn btn-info"
+                                class="btn btn-info m-1"
                         />
                         <input
                                 type="reset"
                                 value="취소"
-                                class="input_button btn btn-info"
+                                class="btn btn-info m-1"
                                 onclick="history.back()"
                         />
                     </div>
@@ -89,4 +87,7 @@
 </body>
 <script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/bootstrap.min.js"></script>
+<script>
+    $('#faqList').addClass('btn-info')
+</script>
 </html>

@@ -16,7 +16,7 @@
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container-fluid">
-    <div class="row align-items-start">
+    <div class="row">
         <jsp:include page="layout/left_nav.jsp" />
         <div class="col-10">
 			<div class="table-responsive">
@@ -36,10 +36,10 @@
                             <td>제목</td>
                             <td>
                                 <input
-                                        style="width: 25%"
                                         type="text"
                                         name="title"
                                         id="title"
+                                        class="w-100"
                                 />
                             </td>
                         </tr>
@@ -47,10 +47,10 @@
                             <td>내용</td>
                             <td>
 			                    <textarea
-			                            style="resize: none; width: 100%"
 			                            rows="10"
 			                            name="content"
 			                            id="content"
+                                        class="w-100"
 			                    ></textarea>
                             </td>
                         </tr>
@@ -76,4 +76,7 @@
 </body>
 <script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/bootstrap.min.js"></script>
+<script>
+    $('#noticeList').addClass('btn-info')
+</script>
 </html>

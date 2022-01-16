@@ -42,4 +42,8 @@
             where c.member_id = #{memberId}
             group by cart_id
     </select>
+
+    <update id="addQuantity">
+        update cart set quantity = quantity + 1 where cart_id = #{cartId}
+    </update>
 </mapper>

@@ -10,68 +10,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <script src="/js/jquery-3.3.1.js"></script>
-    <script src="/js/Marker.js"></script>
     <style>
-        #sample5_address {
+        #address {
             width: 30%;
         }
-
         #map {
             margin: 10px;
             padding: 10px;
-            width: 90%;
-            height: 400px;
+            width: 95%;
+            height: 70vh;
             border-radius: 10px;
-            /*display:none;*/
         }
 
-        #placeName > input[type=text] {
+        input[type=text] {
             width: 40%;
-        }
-
-        #placeAddress input[type=button] {
-            transition-duration: 0.4s;
-            text-decoration: none;
-            border-radius: 3px;
-            background-color: #26A69A;
-            border: 2px solid #26A69A;
-            color: white;
-        }
-
-        #placeAddress input[type=button]:hover {
-            background-color: white;
-            color: black;
-            border: 2px solid #26A69A
-
-        }
-
-        #hide {
-            display: none;
-        }
-
-        @media (max-width: 600px) {
-            #placeAddress {
-                width: 100%;
-            }
-
-            #map {
-                width: 100%;
-                clear: both;
-                height: 300px;
-                margin-bottom: 2em;
-            }
-
-            #placeName > input[type=text] {
-                width: 79%;
-            }
-
-            #hide {
-                display: block;
-                margin-bottom: 10px;
-                float: right;
-                margin-right: 180px;
-            }
         }
     </style>
 </head>
@@ -79,27 +31,25 @@
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container-fluid">
-    <div class="row align-items-start">
+    <div class="row">
         <jsp:include page="layout/left_nav.jsp"/>
         <div class="col">
             <form action="map" method="post" id="addMarker">
                 <%-- Spring Security가 csrf토큰을 디폴트로 필요로 한다. --%>
                 <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                 <div id="placeAddress" class="my-2">
-                    주변 지점 찾기 :<input type="button" id="hide" onclick="sample5_execDaumPostcode()" value="주소 검색">
-                    <input type="text" id="sample5_address" name="city" onclick="sample5_execDaumPostcode()"
+                    주변 지점 찾기 : <input type="text" id="address" name="city" onclick="daumPostcode()"
                            value="여기를 클릭하세요.">
                 </div>
                 <div id="map"></div>
-                <%--                <div id="placeName">--%>
-                <%--                    지점명 : <input type="text" id="Name" name="branchName">--%>
-                <%--                    <input type="button" id="branch" onclick="sample5_execDaumPostcode()"value="지점 검색">--%>
-                <%--                </div>--%>
             </form>
         </div>
     </div>
 </div>
 </body>
+<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/Marker.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cdb07f97cd6753f6309ef47ab19d87b2&libraries=services"></script>
@@ -123,7 +73,7 @@
     })
     </c:forEach>
 
-    function sample5_execDaumPostcode() {
+    function daumPostcode() {
         new daum.Postcode(
             {
                 oncomplete: function (data) {
@@ -150,7 +100,7 @@
                     }
 
                     // 주소 정보를 해당 필드에 넣는다.
-                    document.getElementById("sample5_address").value = fullAddr;
+                    document.getElementById("address").value = fullAddr;
                     // 주소로 상세 정보를 검색
                     geocoder.addressSearch(data.address, function (
                         results, status) {
@@ -187,7 +137,5 @@
             }).open();
     }
     $('#locationList').addClass('btn-info')
-
 </script>
-<script src="/js/bootstrap.min.js"></script>
 </html>

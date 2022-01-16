@@ -10,54 +10,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <script src="/js/jquery-3.3.1.js"></script>
-    <script src="/js/Marker.js"></script>
     <style>
-        #sample5_address{
-            width : 35%;
-        }
         #map{
             margin: 10px;
             width:50%;
             float : right;
-            height: 400px;
+            height: 78vh;
             border-radius: 10px;
         }
-        #placeName > input[type=text]{
+        input[type=text]{
             width:35%;
-        }
-        #placeAddress input[type=button], #addSubmit{
-            transition-duration: 0.4s;
-            text-decoration: none;
-            border-radius : 3px;
-            background-color : #26A69A;
-            border: 2px solid #26A69A;
-            color : white;
-        }
-        #placeAddress input[type=button]:hover, #addSubmit:hover{
-            background-color : white;
-            color : black;
-            border: 2px solid #26A69A
-        }
-        #addSubmit{
-            box-sizing: border-box;
-        }
-        .nomargin {
-            /*width: 100%;*/
-        }
-        @media(max-width:412px){
-            #placeName, #placeAddress{
-                width: 100%;
-            }
-            #map{
-                width:100%;
-                clear:both;
-                height :300px;
-                margin-bottom : 2em;
-            }
-            #placeName > input[type=text]{
-                width:79%;
-            }
         }
     </style>
 </head>
@@ -65,7 +27,7 @@
 
 <jsp:include page="layout/header.jsp" />
 <div class="container-fluid">
-<div class="row align-items-start nomargin">
+<div class="row">
     <jsp:include page="layout/left_nav.jsp" />
     <div class="col-10">
         <form action="map" method="post" id="addMarker">
@@ -75,15 +37,12 @@
             <div id="placeName" class="my-1">
                 지점명 : <input type="text" id="Name" name="branchName">
             </div>
-
             <div id="placeAddress" >
-                주 &nbsp;&nbsp;소 : <input class="my-1" type="text" id="sample5_address" name="city" onclick="sample5_execDaumPostcode()" value="여기를 클릭하시오.">
-
+                주 &ensp;소 : <input class="my-1" type="text" id="address" name="city" onclick="daumPostcode()" value="여기를 클릭하시오.">
             </div>
             <input type="hidden" id="latitude" name="latitude">
             <input type="hidden" id="longitude" name="longitude">
-            <input type="submit" id="addSubmit" value="추가하기">
-
+            <input type="submit" id="addSubmit" class="btn btn-info" value="추가하기">
         </form>
     </div>
 </div>
@@ -91,9 +50,10 @@
 
 </body>
 
-
+<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/Marker.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cdb07f97cd6753f6309ef47ab19d87b2&libraries=services"></script>
 <script>
@@ -114,7 +74,7 @@
         map : map
     });
 
-    function sample5_execDaumPostcode() {
+    function daumPostcode() {
         new daum.Postcode(
             {
                 oncomplete : function(data) {
@@ -141,7 +101,7 @@
                     }
 
                     // 주소 정보를 해당 필드에 넣는다.
-                    document.getElementById("sample5_address").value = fullAddr;
+                    document.getElementById("address").value = fullAddr;
                     // 주소로 상세 정보를 검색
                     console.log("Before geocoder.addressSearch")
                     geocoder.addressSearch(data.address, function(
@@ -180,5 +140,4 @@
     }
     $('#locationForm').addClass('btn-info')
 </script>
-<script src="/js/bootstrap.min.js"></script>
 </html>

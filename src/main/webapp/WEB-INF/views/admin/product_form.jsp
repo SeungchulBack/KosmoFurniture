@@ -10,64 +10,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>관리자 상품등록페이지</title>
-    <script src="/js/jquery-3.3.1.js"></script>
-    <script src="/js/jquery.form.js"></script>
-    <script src="/js/jquery.MultiFile.js"></script>
-    <script>
-        $(function () {
-            $('#uploadfiles').MultiFile({
-                max: 10,
-                accept: 'jpg|png|gif|jpeg',
-                STRING: {
-                    duplicate: '중복된 선택된 파일이 있습니다.($file)',
-                    denied: '이미지 파일만 업로드 가능 합니다.',
-                    // selected: "$file을 선택했습니다.",
-                    toomany: '이미지는 10개 까지 업로드 가능 합니다.',
-                },
-            });
-
-            let uploadImages = [];
-            $('input[type="file"]').on('change', function(){
-                uploadImages.push(this.files[0])
-                console.log(uploadImages);
-                console.log(document.getElementById('uploadfiles'))
-            })
-
-            $('.product').submit(function () {
-                if ($('#category').val() == '') {
-                    alert('카테고리를 선택해주세요');
-                    return false;
-                }
-
-                if ($('#name').val() == '') {
-                    alert('상품명을 입력해 주세요.');
-                    return false;
-                }
-
-                if ($('#description').val() == '') {
-                    alert('상품설명을 입력해 주세요.');
-                    return false;
-                }
-
-                if ($('#price').val() == '') {
-                    alert('상품가격을 입력해 주세요.');
-                    return false;
-                }
-
-                if ($('#stock').val() == '') {
-                    alert('상품수량을 입력해 주세요.');
-                    return false;
-                }
-            });
-        });
-    </script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 </head>
 <body>
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container-fluid">
-    <div class="row align-items-start">
+    <div class="row">
         <jsp:include page="layout/left_nav.jsp"/>
         <div class="col">
             <div class="table-responsive">
@@ -105,11 +54,10 @@
                             <td>상품명</td>
                             <td>
                                 <input
-                                        style="width: 100%"
                                         type="text"
                                         name="name"
                                         id="name"
-                                        class="board_input_box"
+                                        class="w-100"
                                 />
                             </td>
                         </tr>
@@ -117,11 +65,10 @@
                             <td>상품가격</td>
                             <td>
                                 <input
-                                        style="width: 100%"
                                         type="text"
                                         name="price"
                                         id="price"
-                                        class="board_input_box"
+                                        class="w-100"
                                 />
                             </td>
                         </tr>
@@ -129,11 +76,10 @@
                             <td>상품수량</td>
                             <td>
                                 <input
-                                        style="width: 100%"
                                         type="text"
                                         name="stock"
                                         id="stock"
-                                        class="board_input_box"
+                                        class="w-100"
                                 />
                             </td>
                         </tr>
@@ -141,11 +87,10 @@
                             <td>상품설명</td>
                             <td>
                     <textarea
-                            style="resize: none; width: 100%"
                             rows="10"
                             name="description"
                             id="description"
-                            class="board_input_box"
+                            class="w-100"
                     ></textarea>
                             </td>
                         </tr>
@@ -161,16 +106,16 @@
                             </td>
                         </tr>
                     </table>
-                    <div id="product">
+                    <div id="product" class="d-flex justify-content-center">
                         <input
                                 type="submit"
                                 value="등록"
-                                class="input_button btn btn-info"
+                                class="btn btn-info m-1"
                         />
                         <input
                                 type="reset"
                                 value="취소"
-                                class="input_button btn btn-info"
+                                class="btn btn-info m-1"
                                 onclick="history.back()"
                         />
                     </div>
@@ -180,8 +125,58 @@
     </div>
 </div>
 </body>
+<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery.MultiFile.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script>
+    $(function () {
+        $('#uploadfiles').MultiFile({
+            max: 10,
+            accept: 'jpg|png|gif|jpeg',
+            STRING: {
+                duplicate: '중복된 선택된 파일이 있습니다.($file)',
+                denied: '이미지 파일만 업로드 가능 합니다.',
+                // selected: "$file을 선택했습니다.",
+                toomany: '이미지는 10개 까지 업로드 가능 합니다.',
+            },
+        });
+
+        let uploadImages = [];
+        $('input[type="file"]').on('change', function(){
+            uploadImages.push(this.files[0])
+            console.log(uploadImages);
+            console.log(document.getElementById('uploadfiles'))
+        })
+
+        $('.product').submit(function () {
+            if ($('#category').val() == '') {
+                alert('카테고리를 선택해주세요');
+                return false;
+            }
+
+            if ($('#name').val() == '') {
+                alert('상품명을 입력해 주세요.');
+                return false;
+            }
+
+            if ($('#description').val() == '') {
+                alert('상품설명을 입력해 주세요.');
+                return false;
+            }
+
+            if ($('#price').val() == '') {
+                alert('상품가격을 입력해 주세요.');
+                return false;
+            }
+
+            if ($('#stock').val() == '') {
+                alert('상품수량을 입력해 주세요.');
+                return false;
+            }
+        });
+    });
+
     $('#productForm').addClass('btn-info')
 </script>
 </html>
