@@ -27,7 +27,7 @@ function getToken(account, pwd) {
     pwd: jsonPwd,
   });
 
-  fetch('http://192.168.0.14:8484/api/login', {
+  fetch('http://121.88.86.169:8484/api/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ function getToken(account, pwd) {
 }
 
 function getData() {
-  fetch('http://192.168.0.14:8484/api/products', {
+  fetch('http://121.88.86.169:8484/api/products', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ function getMyInfo() {
     var loginUser = parseJwt(sessionStorage.getItem('kosmoJwt'));
     $('#login_button').css('visibility', 'hidden');
     $('#logout').css('visibility', 'visible');
-    $('#welcome').append(`<span>${loginUser.fullName}님</span>`);
+    $('#welcome').append(`<span>환영합니다 ${loginUser.fullName}님!</span>`);
   }
 }
 
@@ -86,26 +86,13 @@ function parseJwt(token) {
 var productId;
 
 function addCart(productId) {
-
-  if (sessionStorage.getItem('kosmoJwt') == null)
-    alert('로그인 하셔야 가능한 서비스입니다.');
   fetch('http://121.88.86.169:8484/api/products/cart?productId=' + productId, {
-
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + sessionStorage.getItem('kosmoJwt'),
     },
-  })
-    .then((res) => res.json())
-    .then((json) => {
-      console.log(json);
-      if (json.cartAdded == 'true') {
-        alert('장바구니에 추가되었습니다!');
-      } else {
-        alert('오류가 발생했습니다.');
-      }
-    });
+  }).then((res) => alert('장바구니에 추가되었습니다!'));
 }
 
 function buildProducts(data) {
@@ -118,7 +105,7 @@ function buildProducts(data) {
     var fileName =
       data[i].productImage == null ? '' : data[i].productImage.dbFileName;
     var row = ` <div class="pro">
-          <img src="http://192.168.0.14:8484/files/${fileName}" alt="" />
+          <img src="http://121.88.86.169:8484/files/${fileName}" alt="" />
           <div class="info">
             <h5>${data[i].name}</h5>
             <div class="star">
@@ -138,7 +125,7 @@ function buildProducts(data) {
   }
 }
 function moveToCart() {
-  window.location.href = `http://192.168.0.14:8484/shop/cart?token=${sessionStorage.getItem(
+  window.location.href = `http://121.88.86.169:8484/shop/cart?token=${sessionStorage.getItem(
     'kosmoJwt'
   )}`;
 }

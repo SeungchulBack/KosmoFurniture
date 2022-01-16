@@ -11,45 +11,13 @@
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>공지사항 보기</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <script src="/js/jquery-3.3.1.js">
-    </script>
-    <script>
-        //삭제 확인 후 삭제하기
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-
-        function check_delete() {
-            var answer = confirm("정말 삭제하시겠습니까?");
-            if (answer) {
-                $.ajax({
-                    url: '/admin/notice/${notice.noticeId}/delete',
-                    type: 'delete',
-                    beforeSend : function(xhr){
-                        xhr.setRequestHeader(header, token);
-                    },
-                    success: function (data) {
-                        console.log(data)
-                        var result = JSON.parse(data);
-                        if (result.isDeleted == "true") {
-                            alert("공지사항이 삭제되었습니다.");
-                            location.href='/admin/notice?pageNum=1&pageSize=5';
-                        } else {
-                            alert("오류가 발생했습니다.");
-                        }
-                    }
-                })
-            }
-        }
-
-        $('#notice').addClass('btn-info')
-    </script>
 </head>
 <body>
 
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container-fluid ">
-    <div class="row align-items-start">
+    <div class="row">
         <jsp:include page="layout/left_nav.jsp" />
         <div class="col">
 
@@ -78,12 +46,42 @@
                         </td>
                     </tr>
                 </table>
-
             </div>
         </div>
     </div>
 </div>
 
+<script src="/js/jquery-3.3.1.js">
 <script src="/js/bootstrap.min.js"></script>
+</script>
+<script>
+    //삭제 확인 후 삭제하기
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    function check_delete() {
+        var answer = confirm("정말 삭제하시겠습니까?");
+        if (answer) {
+            $.ajax({
+                url: '/admin/notice/${notice.noticeId}/delete',
+                type: 'delete',
+                beforeSend : function(xhr){
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (data) {
+                    console.log(data)
+                    var result = JSON.parse(data);
+                    if (result.isDeleted == "true") {
+                        alert("공지사항이 삭제되었습니다.");
+                        location.href='/admin/notice?pageNum=1&pageSize=5';
+                    } else {
+                        alert("오류가 발생했습니다.");
+                    }
+                }
+            })
+        }
+    }
+    $('#noticeList').addClass('btn-info')
+</script>
 </body>
 </html>

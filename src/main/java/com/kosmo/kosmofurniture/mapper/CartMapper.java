@@ -11,6 +11,7 @@ import java.util.List;
 public interface CartMapper {
 
     int save(Cart cart);
+    int addQuantity(Long cartId);
     List<Cart> findAllByMemberId(Long memberId);
     @ResultMap("cartDto")
     List<CartDto> findAllDtoByMemberId(Long memberId);

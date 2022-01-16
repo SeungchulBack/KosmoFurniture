@@ -16,7 +16,7 @@
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container-fluid">
-    <div class="row align-items-start">
+    <div class="row">
         <jsp:include page="layout/left_nav.jsp" />
         <div class="col-10">
 

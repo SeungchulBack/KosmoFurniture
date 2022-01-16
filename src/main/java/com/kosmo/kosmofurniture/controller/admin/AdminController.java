@@ -159,7 +159,7 @@ public class AdminController {
      * 상품수정 뷰페이지
      */
     @GetMapping("products/{productId}/update")
-    public ModelAndView editProductView(@PathVariable Long productId, HttpServletRequest request) {
+    public ModelAndView editProductView(@PathVariable Long productId) {
 
         Product product = productMapper.findById(productId);
 
@@ -191,11 +191,12 @@ public class AdminController {
         return ResponseEntity.ok().body("{\"isUpdated\" : \"" + result + "\"}");
     }
 
-    @PostMapping("products/ajaxImageUpload")
-    public ModelAndView ajaxImageUpload(@RequestPart List<MultipartFile> uploadfiles, @RequestParam String productId) {
-
-            productImageService.save(uploadfiles, Long.valueOf(productId));
-
+    /**
+     *
+     */
+    @PostMapping("products/imageUpload")
+    public ModelAndView imageUpload(@RequestPart List<MultipartFile> uploadfiles, @RequestParam String productId) {
+        productImageService.save(uploadfiles, Long.valueOf(productId));
         return new ModelAndView("redirect:/admin/products/" + productId);
     }
 

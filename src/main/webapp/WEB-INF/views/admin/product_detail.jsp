@@ -11,43 +11,7 @@
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>상품 상세 보기</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <script src="/js/jquery-3.3.1.js">
-    </script>
-    <script>
-        //삭제 확인 후 삭제하기
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-
-        function check_delete() {
-            var answer = confirm("정말 삭제하시겠습니까?");
-            if (answer) {
-                $.ajax({
-                    url: '/admin/products/${product.productId}/delete',
-                    type: 'delete',
-                    beforeSend : function(xhr){
-                        xhr.setRequestHeader(header, token);
-                    },
-                    success: function (data) {
-                        console.log(data)
-                        var result = JSON.parse(data);
-                        if (result.isDeleted == "true") {
-                            alert("상품이 삭제되었습니다.");
-                            location.href='/admin/products';
-                        } else {
-                            alert("오류가 발생했습니다.");
-                        }
-                    }
-                })
-            }
-        }
-
-        $('#productList').addClass('btn-info')
-    </script>
     <style>
-        .carousel-inner > .item > img {
-            margin: 0 auto;
-            max-width: 100%
-        }
         .td-description {
             max-width: 0;
             word-break: break-all;
@@ -59,8 +23,8 @@
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container-fluid ">
-    <div class="row align-items-start">
-        <jsp:include page="layout/left_nav.jsp" />
+    <div class="row">
+        <jsp:include page="layout/left_nav.jsp"/>
         <div class="col">
 
             <div class="table-responsive">
@@ -79,32 +43,31 @@
                     <tr>
                         <td colspan="2" class="td-description">
                             ${product.description}
-                            <br><br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
                             <c:if test="${!empty images}">
                                 <!-- 이미지 들어가는 부분 start-->
-                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-
-                                    <div class="carousel-inner">
-                                        <c:out value="이미지 갯수 : ${images.size()}"></c:out>
-                                        <c:forEach var="image" items="${images}" varStatus="a">
-                                            <div class="item active">
-                                                <img class="d-block w-50" src="/files/${image.dbFileName}">
-                                            </div>
-                                        </c:forEach>
+                                <c:out value="이미지 갯수 : ${images.size()}"></c:out>
+                                <c:forEach var="image" items="${images}" varStatus="a">
+                                    <div class="d-flex justify-content-center">
+                                        <img class="vh-100" src="/files/${image.dbFileName}">
                                     </div>
-                                </div>
+                                </c:forEach>
                                 <!-- 이미지 들어가는 부분 end-->
                             </c:if>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <div class="row">
-                                <input type="button" value='수정하기' onclick="location.href='/admin/products/${product.productId}/update'"
-                                       class="btn btn-info m-1">
-                                <input type="button" onclick="check_delete()" value="삭제하기" class="btn btn-info m-1">
-                                <input type="button" onclick="history.back()" value="뒤로가기" class="btn btn-info m-1">
-                            </div>
+                                <div class="d-flex justify-content-center">
+                                    <input type="button" value='수정하기'
+                                           onclick="location.href='/admin/products/${product.productId}/update'"
+                                           class="btn btn-info m-1">
+                                    <input type="button" onclick="check_delete()" value="삭제하기" class="btn btn-info m-1">
+                                    <input type="button" onclick="history.back()" value="뒤로가기" class="btn btn-info m-1">
+                                </div>
                         </td>
                     </tr>
                 </table>
@@ -113,6 +76,38 @@
     </div>
 </div>
 
-<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery-3.3.1.js">
+    <script src="/js/bootstrap.min.js"></script>
+</script>
+<script>
+    //삭제 확인 후 삭제하기
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    function check_delete() {
+        var answer = confirm("정말 삭제하시겠습니까?");
+        if (answer) {
+            $.ajax({
+                url: '/admin/products/${product.productId}/delete',
+                type: 'delete',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (data) {
+                    console.log(data)
+                    var result = JSON.parse(data);
+                    if (result.isDeleted == "true") {
+                        alert("상품이 삭제되었습니다.");
+                        location.href = '/admin/products';
+                    } else {
+                        alert("오류가 발생했습니다.");
+                    }
+                }
+            })
+        }
+    }
+
+    $('#productList').addClass('btn-info')
+</script>
 </body>
 </html>

@@ -11,112 +11,104 @@
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>관리자 공지수정페이지</title>
-    <script src="/js/jquery-3.3.1.js"></script>
-    <script src="/js/jquery.form.js"></script>
-    <script src="/js/jquery.MultiFile.js"></script>
-    <script>
-        // ajax 관련 로직들
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-
-        function updateFAQ() {
-            var answer = confirm("수정하시겠습니까?");
-
-            let title = $("#title").val();
-            let content = $("#content").val();
-
-            let faqData = {
-                'faqId': '${faq.faqId}',
-                'title': title,
-                'content': content
-            };
-
-            let formData = new FormData();
-
-            if (answer) {
-                $.ajax({
-                    url: '/admin/faq/update',
-                    type: 'put',
-                    data: faqData,
-                    beforeSend : function(xhr){
-                        xhr.setRequestHeader(header, token);
-                    },
-                    success: function (data) {
-
-                        console.log("faq ajax succeed")
-
-                        $("form").submit();
-
-                        console.log(data)
-                        var result = JSON.parse(data);
-                        if (result.isUpdated == "true") {
-                            alert("FAQ가 수정되었습니다.");
-                            history.back(3);
-                        } else {
-                            alert("오류가 발생했습니다.");
-                        }
-                    }
-                })
-            }
-        }
-        $('#faq').addClass('btn-info')
-    </script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 </head>
 <body>
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container-fluid">
-    <div class="row align-items-start">
+    <div class="row">
         <jsp:include page="layout/left_nav.jsp"/>
         <div class="col">
             <div class="table-responsive">
-
-                    <table class="table table-hover table-bordered">
-                        <tr>
-                            <td>제목</td>
-                            <td>
-                                <input
-                                        style="width: 100%"
-                                        type="text"
-                                        name="title"
-                                        id="title"
-                                        class="board_input_box"
-                                        value="${faq.title}"
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>내용</td>
-                            <td>
+                <table class="table table-hover table-bordered">
+                    <tr>
+                        <td>제목</td>
+                        <td>
+                            <input
+                                    type="text"
+                                    name="title"
+                                    id="title"
+                                    class="w-100"
+                                    value="${faq.title}"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>내용</td>
+                        <td>
                     <textarea
-                            style="resize: none; width: 100%"
                             rows="10"
                             name="content"
                             id="content"
-                            class="board_input_box"
+                            class="w-100"
                     >${faq.content}</textarea>
-                            </td>
-                        </tr>
-                    </table>
-                    <div id="faq">
-                        <input
-                                type="button"
-                                onclick="updateFAQ()"
-                                value="저장하기"
-                                class="input_button btn btn-info"
-                        >
-                        <input
-                                type="reset"
-                                value="취소"
-                                class="input_button btn btn-info"
-                                onclick="history.back()"
-                        />
-                    </div>
+                        </td>
+                    </tr>
+                </table>
+                <div id="faq">
+                    <input
+                            type="button"
+                            onclick="updateFAQ()"
+                            value="저장하기"
+                            class="btn btn-info"
+                    >
+                    <input
+                            type="reset"
+                            value="취소"
+                            class="btn btn-info"
+                            onclick="history.back()"
+                    />
+                </div>
             </div>
         </div>
     </div>
 </div>
 </body>
+<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery.MultiFile.js"></script>
 <script src="/js/bootstrap.min.js"></script>
+<script>
+    // ajax 관련 로직들
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    function updateFAQ() {
+        var answer = confirm("수정하시겠습니까?");
+
+        let title = $("#title").val();
+        let content = $("#content").val();
+
+        let faqData = {
+            'faqId': '${faq.faqId}',
+            'title': title,
+            'content': content
+        };
+
+        if (answer) {
+            $.ajax({
+                url: '/admin/faq/update',
+                type: 'put',
+                data: faqData,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (data) {
+
+                    console.log(data)
+                    var result = JSON.parse(data);
+                    if (result.isUpdated == "true") {
+                        alert("FAQ가 수정되었습니다.");
+                        history.back(3);
+                    } else {
+                        alert("오류가 발생했습니다.");
+                    }
+                }
+            })
+        }
+    }
+
+    $('#faqList').addClass('btn-info')
+</script>
 </html>
