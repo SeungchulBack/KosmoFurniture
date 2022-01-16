@@ -14,41 +14,39 @@
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container-fluid">
-    <div class="row align-items-start">
+    <div class="row">
         <jsp:include page="layout/left_nav.jsp" />
         <div class="col-10">
 				<a class="btn btn-primary mr-5 my-1" href="/admin/notice-write" role="button">공지등록</a>
                 <table class="table">
                     <thead class="thead-light">
                     <tr class="text-center">
-                        <th class="col-3" scope="col">번호</th>
-                        <th class="col-3" scope="col">제목</th>
-                        <th class="col-3" scope="col">내용</th>
-                        <th class="col-3" scope="col">작성일</th>
+                        <th class="col-3">번호</th>
+                        <th class="col-3">제목</th>
+                        <th class="col-3">내용</th>
+                        <th class="col-3">작성일</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="notice" items="${noticeList}">
-                        <tr>
-                            <td class="text-center">
+                        <tr class="text-center">
+                            <td>
                                     ${notice.noticeId}
                             </td>
-                            <td class="text-center">
+                            <td>
                                 <a href="/admin/notice/${notice.noticeId}">${notice.title}</a>
                             </td>
-                            <td class="td-description text-center">
+                            <td class="td-description">
                                     ${notice.content}
                             </td>
-                            <td class="text-center">
+                            <td>
                                     ${notice.createdAt}
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <div class="toolbar-bottom">
-                    <div class="toolbar mt-lg">
-                        <div class="sorter">
+                        <div class="d-flex justify-content-center">
                             <ul class="pagination">
 
                                 <%--  페이징 로직 시작  --%>
@@ -111,14 +109,10 @@
                                                                  href="javascript:PageMove(${pageInfo.pages})">맨뒤로</a>
                                         </li>
                                     </c:otherwise>
-
                                 </c:choose>
-
                                 <%--  페이징 로직 끝  --%>
                             </ul>
                         </div>
-                    </div>
-                </div>
         </div>
     </div>
 </div>
@@ -138,6 +132,6 @@
 
         location.href = "/admin/notice?pageNum=" + page + "&pageSize=" + pageSize;
     }
-    $('#notice').addClass('btn-info')
+    $('#noticeList').addClass('btn-info')
 </script>
 </html>

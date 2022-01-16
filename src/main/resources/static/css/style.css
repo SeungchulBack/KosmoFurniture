@@ -40,6 +40,18 @@ p{
     margin: 40px 0;
 }
 
+button.normal{
+    font-size: 14px;
+    font-weight: 600;
+    padding: 15px 30px;
+    color: black;
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
 body{
     width: 100%;
 }
@@ -97,7 +109,7 @@ body{
 
 /* HomePage Start */
 #txt-btn{
-    background-image: url("../img/background.jpg");
+    background-image: url("../../../../../react/public/img/background.jpg");
     height: 90vh;
     width: 100%;
     background-size: cover;
@@ -113,7 +125,7 @@ body{
 }
 
 #txt-btn button{ /* 버튼 css */
-    background-image: url("../img/button.png");
+    background-image: url("../../../../../react/public/img/button.png");
     background-color: transparent;
     color: #088178;
     border: 0;
@@ -127,6 +139,10 @@ body{
 /* Product */
 #product1{
     text-align: center;
+}
+
+#product1 h2{
+    font-size: 50px;
 }
 
 #product1 .pro-container{
@@ -195,4 +211,38 @@ body{
     right: 10px;
 }
 
+#banner{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-image: url("../../../../../react/public/img/b16.jpg");
+    width: 100%;
+    height: 40vh;
+    background-size: cover;
+    background-position: center;
+}
+
+#banner h4{
+    color: #fff;
+    font-size: 16px;
+}
+
+
+#banner h2 {
+    color: #fff;
+    font-size: 30px;
+    padding: 10px 0;
+}
+
+
+#banner h2 span{
+    color: #188078;
+}
+
+#banner button:hover{
+    background-color: #088178;
+    color: #fff;
+}
 /* HomePage End */

@@ -18,31 +18,41 @@
 <body>
 
 <%--모달 로그인 팝업--%>
-<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
+<div
+        class="modal fade"
+        id="modalLoginForm"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="myModalLabel"
+        aria-hidden="true"
+>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body mx-3">
-                <div class="md-form mb-5">
-                    <i class="fas fa-envelope prefix grey-text"></i>
-                    <input type="email" id="defaultForm-email" class="form-control validate">
-                    <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
+            <form id="loginForm">
+                <div class="login-div">
+                    <ul class="top">
+                        <li>
+                            <label for="txt1">아이디</label
+                            ><input type="text" id="account"/>
+                        </li>
+                        <li>
+                            <label for="txt2">비밀번호</label
+                            ><input type="password" id="pwd"/>
+                        </li>
+                        <li>
+                            <button data-dismiss="modal" id="login">로그인</button>
+                        </li>
+                        <li class="save">
+                            <input type="checkbox" id="check1"/><label for="check1"
+                        >아이디저장</label
+                        >
+                        </li>
+                    </ul>
+                    <button class="btm">
+                        <a id="mem" href="member.html">회원가입</a>
+                    </button>
                 </div>
-                <div class="md-form mb-4">
-                    <i class="fas fa-lock prefix grey-text"></i>
-                    <input type="password" id="defaultForm-pass" class="form-control validate">
-                    <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
-                </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button class="btn btn-default">Login</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -66,7 +76,15 @@
             <li><a class="active" href="/shop/cart"><i class="fas fa-shopping-bag"></i></a></li>
             <sec:authorize access="isAuthenticated()">
                 <li>
-                    <sec:authentication property="principal.fullName"/>님 환영합니다!
+                    <sec:authentication property="principal.fullName"/>님
+                </li>
+                <li>
+                    <form action="/logout" method="post">
+                        <input type="hidden"
+                               name="${_csrf.parameterName}"
+                               value="${_csrf.token}"/>
+                        <input class=" btn btn-secondary" type="submit" value="로그아웃">
+                    </form>
                 </li>
             </sec:authorize>
             <sec:authorize access="isAnonymous()">
@@ -74,17 +92,12 @@
                        data-toggle="modal" data-target="#modalLoginForm">
                     <i class="fas fa-user"></i></a></li>
             </sec:authorize>
-            <form action="/logout" method="post">
-                <input type="hidden"
-                       name="${_csrf.parameterName}"
-                       value="${_csrf.token}"/>
-                <input class="nav-link text-light btn btn-secondary" type="submit" value="로그아웃">
-            </form>
         </ul>
     </div>
 </section>
 <!--Header End-->
 <div class="jumbotron m-4">
+    <h3 class="text-center mb-4 mt-n4 text-secondary">장바구니</h3>
     <table class="table">
         <thead class="thead-light">
         <tr class="text-center">
@@ -94,7 +107,7 @@
             <th class="col-3" scope="col">이미지</th>
         </tr>
         </thead>
-        <tbody class="text-center">
+        <tbody class="text-center ">
         <c:forEach var="cart" items="${cartDtoList}">
             <tr>
                 <td class="align-middle">
@@ -113,7 +126,6 @@
         </c:forEach>
         </tbody>
     </table>
-
     <div class="text-center mt-3">
         <form action="/shop/order" method="post">
             <input
@@ -124,7 +136,6 @@
             <button class="btn btn-dark">주문하기</button>
         </form>
     </div>
-
 </div>
 <script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/bootstrap.bundle.js"></script>

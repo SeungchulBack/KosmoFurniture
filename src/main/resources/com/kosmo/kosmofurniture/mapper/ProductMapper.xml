@@ -21,7 +21,7 @@
     </update>
 
     <update id="updateStock">
-        update product set stock = stock - #{stock} where product_id = #{productId"}
+        update product set stock = stock - #{stock} where product_id = #{productId}
     </update>
 
     <select id="findAll" resultType="product">

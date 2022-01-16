@@ -7,8 +7,7 @@
     <meta charset="UTF-8">
     <title>관리자 상품 목록</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <script src="/js/jquery-3.3.1.js"></script>
-    <style type="text/css">
+    <style>
         .td-description {
             overflow: hidden;
             white-space: nowrap;

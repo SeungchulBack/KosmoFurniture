@@ -5,6 +5,7 @@ import com.kosmo.kosmofurniture.domain.MemberPrincipal;
 import com.kosmo.kosmofurniture.domain.Product;
 import com.kosmo.kosmofurniture.mapper.CartMapper;
 import com.kosmo.kosmofurniture.mapper.ProductMapper;
+import com.kosmo.kosmofurniture.service.CartService;
 import com.kosmo.kosmofurniture.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,8 @@ import java.util.List;
 public class ProductApiController {
 
     private final ProductService productService;
-    private final CartMapper cartMapper;
+    private final CartService cartService;
+
 
     @GetMapping
     public ResponseEntity<List<Product>> getProducts() {
@@ -39,16 +41,8 @@ public class ProductApiController {
 
     @PostMapping("/cart")
     public ResponseEntity<String> addCart(@AuthenticationPrincipal MemberPrincipal principal, @RequestParam Long productId) {
-        Long memberId = principal.getMemberId();
-        Cart cart = Cart.builder()
-                .memberId(memberId)
-                .productId(productId)
-                .quantity(1)
-                .build();
 
-        int success = cartMapper.save(cart);
-
-        boolean result = (success == 1) ? true : false;
+        boolean result = cartService.addCartOrAddQuantity(principal, productId);
 
         return ResponseEntity.ok().body("{\"cartAdded\" : \"" + result + "\"}");
     }

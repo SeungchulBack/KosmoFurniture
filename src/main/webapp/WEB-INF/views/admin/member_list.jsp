@@ -14,7 +14,7 @@
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container-fluid">
-    <div class="row align-items-start">
+    <div class="row">
         <jsp:include page="layout/left_nav.jsp"/>
         <div class="col-10">
             <div class="d-flex justify-content-end">
@@ -48,15 +48,15 @@
             <table class="table">
                 <thead class="thead-light">
                 <tr class="text-center">
-                    <th class="col-1" scope="col">ID</th>
-                    <th class="col-1" scope="col">계정명</th>
-                    <th class="col-1" scope="col">이름</th>
-                    <th class="col-1" scope="col">이메일</th>
-                    <th class="col-1" scope="col">전화번호</th>
-                    <th class="col-2" scope="col">주소</th>
-                    <th class="col-2" scope="col">주민등록번호</th>
-                    <th class="col-2" scope="col">가입시간</th>
-                    <th class="col-1" scope="col">권한</th>
+                    <th class="col-1">ID</th>
+                    <th class="col-1">계정명</th>
+                    <th class="col-1">이름</th>
+                    <th class="col-1">이메일</th>
+                    <th class="col-1">전화번호</th>
+                    <th class="col-2">주소</th>
+                    <th class="col-2">주민등록번호</th>
+                    <th class="col-2">가입시간</th>
+                    <th class="col-1">권한</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -180,6 +180,5 @@
     }
 
     $('#memberList').addClass('btn-info')
-
 </script>
 </html>
