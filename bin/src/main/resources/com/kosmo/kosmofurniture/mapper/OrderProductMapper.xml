@@ -7,9 +7,28 @@
         INSERT order_product (quantity, product_id, order_id) VALUES (#{quantity}, #{productId}, #{orderId})
     </insert>
 
-    <select id="findById" resultType="order">
-        SELECT * from `order` where order_id = #{orderId}
+    <select id="findAllByOrderId" resultType="order">
+        SELECT * from `order_product` where order_id = #{orderId}
     </select>
+
+    <select id="findAllDtosByOrderId" resultMap="orderDetailDto">
+        select m.member_id, op.order_id, op.quantity, i.db_file_name, p.product_id, p.name, p.price
+        from order_product op
+        join product p on p.product_id = op.product_id
+        join product_image i on i.product_id = p.product_id
+        join `order` o on o.order_id = op.order_id
+        join member m on o.member_id = m.member_id
+        where o.order_id = #{orderId}
+        group by product_id
+    </select>
+
+    <select id="findOneByOrderId" resultType="order">
+        SELECT * from `order_product` where order_id = #{orderId} limit 1
+    </select>
+
+    <delete id="deleteAllByOrderId">
+        delete from order_product where order_id = #{orderId}
+    </delete>
 
     <delete id="deleteAll">
         delete from order_product
@@ -18,4 +37,16 @@
     <update id="setAutoIncToZero">
         ALTER TABLE order_product AUTO_INCREMENT = 1
     </update>
+
+    <resultMap id="orderDetailDto" type="com.kosmo.kosmofurniture.domain.OrderDetailDto" >
+        <result property="memberId" column="member_id" />
+        <result property="orderId" column="order_id" />
+        <result property="quantity" column="quantity" />
+        <result property="imageFileName" column="db_file_name" />
+        <association property="product" javaType="com.kosmo.kosmofurniture.domain.Product">
+            <id property="productId" column="product_id"/>
+            <result property="name" column="name"/>
+            <result property="price" column="price"/>
+        </association>
+    </resultMap>
 </mapper>

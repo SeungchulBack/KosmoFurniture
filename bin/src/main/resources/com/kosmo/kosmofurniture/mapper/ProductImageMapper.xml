@@ -15,11 +15,19 @@
         SELECT * from product_image where product_id = #{productId} limit 1
     </select>
 
+    <delete id="deleteByProductId">
+        delete from product_image where product_id = #{productId}
+    </delete>
+
+    <delete id="deleteById">
+        delete from product_image where product_image_id = #{productImageId}
+    </delete>
+
     <delete id="deleteAll">
-        delete from product
+        delete from product_image
     </delete>
 
     <update id="setAutoIncToZero">
-        ALTER TABLE product AUTO_INCREMENT = 1
+        ALTER TABLE product_image AUTO_INCREMENT = 1
     </update>
 </mapper>

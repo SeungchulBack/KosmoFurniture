@@ -14,19 +14,17 @@
     <script src="/js/Marker.js"></script>
     <style>
         #sample5_address{
-            width : 70%;
+            width : 35%;
         }
         #map{
             margin: 10px;
-            padding: 10px;
-            width:48%;
+            width:50%;
             float : right;
-            height: 500px;
+            height: 400px;
             border-radius: 10px;
-            /*display:none;*/
         }
         #placeName > input[type=text]{
-            width:50%;
+            width:35%;
         }
         #placeAddress input[type=button], #addSubmit{
             transition-duration: 0.4s;
@@ -40,17 +38,15 @@
             background-color : white;
             color : black;
             border: 2px solid #26A69A
-
-        }
-        #hide{
-            display : none;
         }
         #addSubmit{
-            margin-top : 10px;
-            width: 100px;
+            box-sizing: border-box;
+        }
+        .nomargin {
+            /*width: 100%;*/
         }
         @media(max-width:412px){
-            #placeName, #placeType, #placeAddress, #placeTel, #placeComment{
+            #placeName, #placeAddress{
                 width: 100%;
             }
             #map{
@@ -59,45 +55,41 @@
                 height :300px;
                 margin-bottom : 2em;
             }
-            #sample5_address{
-                width : 100%;
-            }
             #placeName > input[type=text]{
                 width:79%;
-            }
-            #full{
-                display:none;
-            }
-            #hide{
-                display : block;
-                margin-bottom: 10px;
-                float: right;
-                margin-right: 180px;
             }
         }
     </style>
 </head>
 <body>
 
-<form action="map" method="post" id="addMarker">
-    <%-- Spring Security가 csrf토큰을 디폴트로 필요로 한다. --%>
-    <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-    <div id="map"></div>
-    <div id="placeName">
-        지점명 : <input type="text" id="Name" name="branchName">
+<jsp:include page="layout/header.jsp" />
+<div class="container-fluid">
+<div class="row align-items-start nomargin">
+    <jsp:include page="layout/left_nav.jsp" />
+    <div class="col-10">
+        <form action="map" method="post" id="addMarker">
+            <%-- Spring Security가 csrf토큰을 디폴트로 필요로 한다. --%>
+            <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+            <div id="map"></div>
+            <div id="placeName" class="my-1">
+                지점명 : <input type="text" id="Name" name="branchName">
+            </div>
+
+            <div id="placeAddress" >
+                주 &nbsp;&nbsp;소 : <input class="my-1" type="text" id="sample5_address" name="city" onclick="sample5_execDaumPostcode()" value="여기를 클릭하시오.">
+
+            </div>
+            <input type="hidden" id="latitude" name="latitude">
+            <input type="hidden" id="longitude" name="longitude">
+            <input type="submit" id="addSubmit" value="추가하기">
+
+        </form>
     </div>
+</div>
+</div>
 
-    <div id="placeAddress">
-        주 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소 :<input type="button" id="hide" onclick="sample5_execDaumPostcode()"value="주소 검색">
-        <input type="text" id="sample5_address" name="city">
-        <input type="button" id="full" onclick="sample5_execDaumPostcode()"value="주소 검색">
-    </div>
-    <input type="hidden" id="latitude" name="latitude">
-    <input type="hidden" id="longitude" name="longitude">
-    <input type="submit" id="addSubmit" value="추가">
-
-</form>
-
+</body>
 
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -108,7 +100,7 @@
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
             center : new kakao.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-            level : 4
+            level : 6
             // 지도의 확대 레벨
         };
 
@@ -186,7 +178,7 @@
                 }
             }).open();
     }
+    $('#locationForm').addClass('btn-info')
 </script>
 <script src="/js/bootstrap.min.js"></script>
-</body>
 </html>

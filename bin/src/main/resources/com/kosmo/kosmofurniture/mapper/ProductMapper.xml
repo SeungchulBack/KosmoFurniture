@@ -4,8 +4,21 @@
 
 <mapper namespace="com.kosmo.kosmofurniture.mapper.ProductMapper">
     <insert id="save" useGeneratedKeys="true" keyProperty="productId">
-        INSERT product (name, description, price, category, stock, created_at) VALUES (#{name}, #{description}, #{price}, #{category}, #{stock}, #{createdAt})
+        INSERT product (name, description, price, category, stock, created_at)
+        VALUES (#{name}, #{description}, #{price}, #{category}, #{stock}, #{createdAt})
     </insert>
+
+    <update id="update">
+        update product
+        <set>
+            name = #{name},
+            description = #{description},
+            price = #{price},
+            category = #{category},
+            stock = #{stock}
+        </set>
+        where product_id = #{productId}
+    </update>
 
     <update id="updateStock">
         update product set stock = stock - #{stock} where product_id = #{productId"}
@@ -19,9 +32,31 @@
         SELECT * from product where product_id = #{productId}
     </select>
 
+    <select id="findWithSearchAndPagination" resultType="product">
+        SELECT * from product
+        <where>
+            <if test="section == 'name'">
+                name LIKE CONCAT('%',#{search},'%')
+            </if>
+            <if test="section == 'description'">
+                description LIKE CONCAT('%',#{search},'%')
+            </if>
+            <if test="section == 'category'">
+                category LIKE CONCAT('%',#{search},'%')
+            </if>
+<!--            <if test="section == 'price'">-->
+<!--                AND BOARD_CONTENT LIKE CONCAT('%',#{search},'%')-->
+<!--            </if>-->
+        </where>
+    </select>
+
     <select id="findByCategory" resultType="product">
         SELECT * from product where category = #{category}
     </select>
+
+    <delete id="deleteById">
+        delete from product where product_id = #{productId}
+    </delete>
 
     <delete id="deleteAll">
         delete from product

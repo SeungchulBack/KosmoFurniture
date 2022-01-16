@@ -27,7 +27,7 @@ function getToken(account, pwd) {
     pwd: jsonPwd,
   });
 
-  fetch('http://121.88.86.169:8484/api/login', {
+  fetch('http://192.168.0.14:8484/api/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ function getToken(account, pwd) {
 }
 
 function getData() {
-  fetch('http://121.88.86.169:8484/api/products', {
+  fetch('http://192.168.0.14:8484/api/products', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ function parseJwt(token) {
 var productId;
 
 function addCart(productId) {
-  fetch('http://121.88.86.169:8484/api/products/cart?productId=' + productId, {
+  fetch('http://:192.168.0.14:8484/api/products/cart?productId=' + productId, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ function buildProducts(data) {
     var fileName =
       data[i].productImage == null ? '' : data[i].productImage.dbFileName;
     var row = ` <div class="pro">
-          <img src="http://121.88.86.169:8484/files/${fileName}" alt="" />
+          <img src="http://192.168.0.14:8484/files/${fileName}" alt="" />
           <div class="info">
             <h5>${data[i].name}</h5>
             <div class="star">
@@ -125,7 +125,7 @@ function buildProducts(data) {
   }
 }
 function moveToCart() {
-  window.location.href = `http://121.88.86.169:8484/shop/cart?token=${sessionStorage.getItem(
+  window.location.href = `http://192.168.0.14:8484/shop/cart?token=${sessionStorage.getItem(
     'kosmoJwt'
   )}`;
 }
