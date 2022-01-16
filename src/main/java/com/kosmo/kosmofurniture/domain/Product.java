@@ -17,5 +17,5 @@ public class Product {
     private Integer stock;
     private LocalDateTime createdAt;
     private ProductImage productImage;
-
+    
 }
