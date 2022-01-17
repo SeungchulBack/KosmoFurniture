@@ -27,7 +27,7 @@ function getToken(account, pwd) {
     pwd: jsonPwd,
   });
 
-  fetch('http://192.168.0.14:8484/api/login', {
+  fetch('http://localhost:8484/api/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ function getToken(account, pwd) {
 }
 
 function getData() {
-  fetch('http://192.168.0.14:8484/api/products', {
+  fetch('http://localhost:8484/api/products', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -118,7 +118,8 @@ function buildProducts(data) {
     var fileName =
       data[i].productImage == null ? '' : data[i].productImage.dbFileName;
     var row = ` <div class="pro">
-          <img src="http://192.168.0.14:8484/files/${fileName}" alt="" />
+   
+          <img class="img-box" src="http://localhost:8484/files/${fileName}" alt="" />
           <div class="info">
             <h5>${data[i].name}</h5>
             <div class="star">
@@ -133,12 +134,14 @@ function buildProducts(data) {
           <a href="#" onclick="addCart(${data[i].productId}); return false;"
             ><i class="fas fa-shopping-bag cart"></i
           ></a>
+          
         </div>`;
+      
     container.innerHTML += row;
   }
 }
 function moveToCart() {
-  window.location.href = `http://192.168.0.14:8484/shop/cart?token=${sessionStorage.getItem(
+  window.location.href = `http://localhost:8484/shop/cart?token=${sessionStorage.getItem(
     'kosmoJwt'
   )}`;
 }
