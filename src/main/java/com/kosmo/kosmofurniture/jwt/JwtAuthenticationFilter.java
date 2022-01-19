@@ -34,7 +34,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         String urlToken = servletRequest.getParameter("token");
         log.debug("URL param token : {}", urlToken);
 
-        if (StringUtils.hasText(jwt) || StringUtils.hasText(urlToken)) {
+        boolean tokenNull = urlToken != null;
+        log.debug("tokenNull : {}", tokenNull);
+
+        if (StringUtils.hasText(jwt) || urlToken != null) {
 
             String token = jwt == null ? urlToken : jwt;
             tokenProvider.validateToken(token);

@@ -1,5 +1,8 @@
 server:
   port: 8484
+  error:
+    whitelabel:
+      enabled: false
 
 spring:
   datasource:
@@ -47,6 +50,7 @@ mybatis:
   type-aliases-package: com.kosmo.kosmofurniture.domain
   configuration: # member_id의 컬럼을 memberId로 자동으로 변환
     map-underscore-to-camel-case: true
+
 #  mapper-locations: classpath:mapper/**/*.xml
 
 #Oauth2 설정

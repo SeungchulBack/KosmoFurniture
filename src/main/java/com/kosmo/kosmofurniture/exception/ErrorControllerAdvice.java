@@ -70,7 +70,7 @@ public class ErrorControllerAdvice {
         ModelAndView mav = new ModelAndView("error");
         mav.addObject("errorCode", HttpStatus.FORBIDDEN.value());
         mav.addObject("errorStatus", HttpStatus.FORBIDDEN);
-        mav.addObject("errorMessage", "접근할 수 없는 URI입니다.");
+        mav.addObject("errorMessage", e.getMessage());
         return mav;
     }
 }
