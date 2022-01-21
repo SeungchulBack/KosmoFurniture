@@ -65,7 +65,7 @@
                             <td>상품가격</td>
                             <td>
                                 <input
-                                        type="text"
+                                        type="number"
                                         name="price"
                                         id="price"
                                         class="w-100"
@@ -76,7 +76,7 @@
                             <td>상품수량</td>
                             <td>
                                 <input
-                                        type="text"
+                                        type="number"
                                         name="stock"
                                         id="stock"
                                         class="w-100"

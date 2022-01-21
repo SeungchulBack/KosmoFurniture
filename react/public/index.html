@@ -5,17 +5,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>팀 프로젝트</title>
+
+    <link
+      href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
     <link
       rel="stylesheet"
       href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
       integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
       crossorigin="anonymous"
     />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+      integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+      crossorigin="anonymous"
+    />
+
     <link rel="stylesheet" href="bootstrap.min.css" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="login.css" />
+    <link rel="stylesheet" href="navbar.css" />
   </head>
   <body>
+    <!--navbar-->
+    <!-- <nav>
+      <div class="nav-content">
+        <div class="toggle-btn">
+          <i class="bx bxs-user-plus"></i>
+        </div>
+        <span style="--i: 1">
+          <a title="내 정보" href="#"><i class="fas fa-user-edit"></i></a>
+        </span>
+        <span style="--i: 2">
+          <a title="주문보기" href="#" onclick="moveToOrder(); return false;"><i class="fas fa-receipt"></i></a>
+        </span> 
+        <span style="--i: 3">
+          <a title="장바구니" href="#" onclick="moveToCart(); return false;"><i class="fas fa-shopping-cart"></i></a>
+        </span>
+      </div>
+    </nav> -->
     <!--Login Form 구현-->
     <div
       class="modal fade"
@@ -53,9 +85,10 @@
         </div>
       </div>
     </div>
+
     <!--Header Start-->
     <section id="header">
-      <a href="#"><img src="img/logo.png" class="logo" alt="" /></a>
+     
       <div>
         <ul id="navbar">
           <li><a class="active" href="index.html">Home</a></li>
@@ -77,34 +110,55 @@
           <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
           <li>
-            <a href="#" onclick="moveToCart(); return false;"
-              ><i class="fas fa-shopping-bag"></i
-            ></a>
-          </li>
-          <li id="welcome"></li>
-          <li>
-            <a
-              id="login_button"
-              href=""
-              class="btn btn-default btn-rounded"
-              data-toggle="modal"
-              data-target="#modalLoginForm"
-            >
-              <i class="fas fa-user"></i
-            ></a>
-            <button
-              class="btn btn-secondary"
-              id="logout"
-              style="visibility: hidden"
-            >
-              로그아웃
-            </button>
+            <div id="logonUser">
+              <a
+                href="#"
+                id="navbarDropdownMenuLink"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span><i class="fas fa-user fa-lg"></i></span>
+              </a>
+              <div
+                class="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <a class="dropdown-item" href="#"><div id="welcome"></div></a>
+                <a class="dropdown-item" href="#">내 정보</a>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  onclick="moveToCart(); return false;"
+                  >장바구니</a
+                >
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  onclick="moveToOrder(); return false;"
+                  >주문조회</a
+                >
+                <a class="dropdown-item" href="#"
+                  ><button class="btn btn-secondary" id="logout">
+                    로그아웃
+                  </button></a
+                >
+              </div>
+            </div>
+            <div>
+              <a
+                id="login_button"
+                href=""
+                data-toggle="modal"
+                data-target="#modalLoginForm"
+              >
+                <i class="far fa-user fa-lg"></i
+              ></a>
+            </div>
           </li>
         </ul>
       </div>
     </section>
 
-    <div id="output"></div>
     <!--txt & btn Start-->
     <section id="txt-btn">
       <h4>Trade-in-offer</h4>
@@ -129,6 +183,7 @@
     </section>
   </body>
   <script src="jquery-3.3.1.js"></script>
-  <script src="bootstrap.min.js"></script>
+  <script src="bootstrap.bundle.js"></script>
   <script src="login.js"></script>
+  <script src="navbar.js"></script>
 </html>

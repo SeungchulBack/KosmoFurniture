@@ -1,5 +1,11 @@
 data-dismiss="modal" -> 로그인 버튼 닫기(부트스트랩)
-
+<!--로그인 정보 가져오기-->
+<div id="output"></div>
+<button id="getData">Get data</button>
+<button id="logout" style="visibility: hidden">Logout</button>
+<button id="getMyInfo">Get MyInfo</button>
+<!--로그인 버튼 닫기-->
+<button data-dismiss="modal" id="login"></button>
 <!--로그인-->
  <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                   aria-hidden="true">
@@ -51,3 +57,47 @@ data-dismiss="modal" -> 로그인 버튼 닫기(부트스트랩)
   <tbody id="myTable"></tbody>
 </table>
   <div id="output"></div>
+
+  <!--로그인 폼-->
+  <section class="login">
+    <h2>로그인</h2>
+    <ul>
+      <li><input type="text" placeholder="아이디" title="아이디 입력"></li>
+      <li><input type="password" placeholder="비밀번호" title="아이디 입력"></li>
+      <li><input type="checkbox" id="chk_id"><label for="chk_id">아이디 저장</label></li>
+      <li><button>로그인</button></li>
+    </ul>
+    <div>
+      <a href="">회원가입</a>
+      <a href="">아이디 찾기</a>
+      <a href="">비밀번호 찾기</a>
+    </div>
+      <a href="">회원 주문조회</a>
+  </section>
+ 1.가산(금천구) 2. 강남 3. 서초 4. 성남/분당 5. 영등포 
+  메타빌드 - 1
+  가이스트코리아
+  네오플러스
+  미르나인 -4
+  씨도코리아
+  아이디메이트
+  아이티크루
+  에스제이에이치스튜디오 -5 
+  위고컴퍼니
+  잘레시아
+  지노시스템
+  크리니티
+  펜타윅스 -3
+  우리테크인터내셔날 -2
+  모블디
+  유니포인트
+  한신정보기술
+
+  -------<잡코리아>
+  1. 후스구스 -2
+  2. 이글루시큐리티 -3
+  3. 더화이트커뮤니케이션 -1
+  4. 페이브 -4
+  5. 모멘티
+  6. 브라더스비
+  7. 애드크림

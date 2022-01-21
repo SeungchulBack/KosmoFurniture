@@ -56,13 +56,14 @@ body {
   width: 100%;
 }
 
+
 /* Header Start */
 #header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px 80px;
-  background: #e3e6f3;
+  background: #c3e4dd;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
   z-index: 999; /*포토샵 layout개념 */
   position: sticky; /* 고정 layout : 스크롤 내려도 움직이지 않음*/
@@ -153,9 +154,26 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
 }
+.pro{
+  text-align:center;
+  display:table;
+  border:1px solid #cecece;
+  width:50px;
+  height:250px;
+}
+
+
+.pro .img-box{
+
+  height: 200px;
+  object-fit: cover;
+  width: 90%;
+  
+  border-radius: 20px;
+}
 
 #product1 .pro {
-  width: 15%;
+  width: 5%;
   min-width: 200px;
   padding: 5px;
   border: 1px solid #cce;
@@ -169,10 +187,7 @@ body {
 #product1 .pro:hover {
   box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.06);
 }
-#product1 .pro img {
-  width: 80%;
-  border-radius: 20px;
-}
+
 
 #product1 .pro .info {
   text-align: center;
