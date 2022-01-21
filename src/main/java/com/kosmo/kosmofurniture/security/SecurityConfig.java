@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/img/**",
                         "/files/**",
                         "/fabicon.ico",
-                        "/error"
+                        "/error/**"
                 );
     }
 
@@ -81,6 +81,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .defaultSuccessUrl("/admin")
+
+                .and()
+                .logout()
+                .logoutSuccessUrl("http://localhost:3000/?logout=true")
+
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
     }

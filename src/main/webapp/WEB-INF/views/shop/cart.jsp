@@ -62,7 +62,7 @@
     <a href="#"><img src="/img/logo.png" class="logo" alt=""></a>
     <div>
         <ul id="navbar">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="http://localhost:3000">Home</a></li>
             <li><a href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
                 Shop </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -73,25 +73,49 @@
             </li>
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
-            <li><a class="active" href="/shop/cart"><i class="fas fa-shopping-bag"></i></a></li>
-            <sec:authorize access="isAuthenticated()">
-                <li>
-                    <sec:authentication property="principal.fullName"/>님
-                </li>
-                <li>
-                    <form action="/logout" method="post">
-                        <input type="hidden"
-                               name="${_csrf.parameterName}"
-                               value="${_csrf.token}"/>
-                        <input class=" btn btn-secondary" type="submit" value="로그아웃">
-                    </form>
-                </li>
-            </sec:authorize>
-            <sec:authorize access="isAnonymous()">
-                <li><a href="" class="btn btn-default btn-rounded"
-                       data-toggle="modal" data-target="#modalLoginForm">
-                    <i class="fas fa-user"></i></a></li>
-            </sec:authorize>
+            <li>
+                <sec:authorize access="isAuthenticated()">
+                    <div id="logonUser">
+                        <a
+                                href="#"
+                                id="navbarDropdownMenuLink"
+                                data-toggle="dropdown"
+                                aria-expanded="false"
+                        >
+                            <span><i class="fas fa-user fa-lg"></i></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#"><sec:authentication property="principal.fullName"/>님</a>
+                            <a class="dropdown-item" href="#">내 정보</a>
+                            <a class="dropdown-item" href="#" onclick="moveToCart(); return false;"
+                            >장바구니</a>
+                            <a class="dropdown-item" href="#" onclick="moveToOrder(); return false;">주문조회</a>
+                            <a class="dropdown-item" href="#"
+                            >
+                                <form action="/logout" method="post">
+                                    <input type="hidden"
+                                           name="${_csrf.parameterName}"
+                                           value="${_csrf.token}"/>
+                                    <input class=" btn btn-secondary" type="submit" value="로그아웃">
+                                </form>
+                            </a
+                            >
+                        </div>
+                    </div>
+                </sec:authorize>
+                <sec:authorize access="isAnonymous()">
+                    <div>
+                        <a
+                                id="login_button"
+                                href=""
+                                data-toggle="modal"
+                                data-target="#modalLoginForm"
+                        >
+                            <i class="far fa-user fa-lg"></i
+                            ></a>
+                    </div>
+                </sec:authorize>
+            </li>
         </ul>
     </div>
 </section>
@@ -139,6 +163,7 @@
 </div>
 <script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/bootstrap.bundle.js"></script>
-</script>
+<script src="/js/login.js"></script>
+<script src="/js/navbar.js"></script>
 </body>
 </html>

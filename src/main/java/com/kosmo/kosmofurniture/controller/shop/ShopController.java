@@ -44,11 +44,15 @@ public class ShopController {
     }
 
     @GetMapping("/order")
-    public ModelAndView orderView(@AuthenticationPrincipal MemberPrincipal principal) {
+    public ModelAndView orderView(
+            @AuthenticationPrincipal MemberPrincipal principal,
+            @RequestParam(required = false) String token) {
+
+        Long memberId = memberMapper.findByAccount(principal.getUsername()).getMemberId();
+        List<Order> orders = orderMapper.findAllByMemberId(principal.getMemberId());
 
         ModelAndView mav = new ModelAndView("shop/order");
-
-        List<Order> orders = orderMapper.findAllByMemberId(principal.getMemberId());
+        if (token != null) mav.setViewName("redirect:/shop/order");
         mav.addObject("orders", orders);
         return mav;
     }
