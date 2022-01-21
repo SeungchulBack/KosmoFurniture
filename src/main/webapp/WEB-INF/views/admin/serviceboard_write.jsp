@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ 작성</title>
+    <title>고객질문 작성</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
@@ -16,14 +16,15 @@
 <jsp:include page="layout/header.jsp"/>
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row align-items-start">
         <jsp:include page="layout/left_nav.jsp" />
         <div class="col-10">
 			<div class="table-responsive">
                 <form
                         method="post"
-                        action="/admin/faq"
+                        action="/admin/serviceboard"
                         enctype="multipart/form-data"
+                        class="serviceboard"
                 >
                     <input
                             name="${_csrf.parameterName}"
@@ -35,10 +36,10 @@
                             <td>제목</td>
                             <td>
                                 <input
+                                        style="width: 25%"
                                         type="text"
                                         name="title"
                                         id="title"
-                                        class="w-100"
                                 />
                             </td>
                         </tr>
@@ -46,11 +47,12 @@
                             <td>글쓴이</td>
                             <td>
                                 <input
+                                        style="width: 25%"
                                         type="text"
                                         name="writer"
                                         id="writer"
-
-                                        class="w-100"
+                                        value="${principal.account}"
+                                        readonly
                                 />
                             </td>
                         </tr>
@@ -58,24 +60,39 @@
                             <td>내용</td>
                             <td>
 			                    <textarea
+			                            style="resize: none; width: 100%"
 			                            rows="10"
 			                            name="content"
 			                            id="content"
-                                        class="w-100"
 			                    ></textarea>
                             </td>
                         </tr>
+                        <!-- 
+                        <tr>
+                            <td>memberId</td>
+                            <td>
+                                <input
+                                        style="width: 25%"
+                                        type="hidden"
+                                        name="writer"
+                                        id="writer"
+                                        value="${principal.memberId}"
+                                        readonly
+                                />
+                            </td>
+                        </tr>
+                        -->
                     </table>
-                    <div class="d-flex justify-content-center">
+                    <div id="serviceboard">
                         <input
                                 type="submit"
                                 value="등록"
-                                class="btn btn-info m-1"
+                                class="input_button btn btn-info"
                         />
                         <input
                                 type="reset"
                                 value="취소"
-                                class="btn btn-info m-1"
+                                class="input_button btn btn-info"
                                 onclick="history.back()"
                         />
                     </div>
@@ -87,7 +104,4 @@
 </body>
 <script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/bootstrap.min.js"></script>
-<script>
-    $('#faqList').addClass('btn-info')
-</script>
 </html>

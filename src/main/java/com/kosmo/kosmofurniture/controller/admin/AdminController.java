@@ -7,6 +7,7 @@ import com.kosmo.kosmofurniture.mapper.MapMarkerMapper;
 import com.kosmo.kosmofurniture.mapper.MemberMapper;
 import com.kosmo.kosmofurniture.mapper.NoticeMapper;
 import com.kosmo.kosmofurniture.mapper.ProductMapper;
+import com.kosmo.kosmofurniture.mapper.ServiceBoardMapper;
 import com.kosmo.kosmofurniture.mapper.FAQMapper;
 import com.kosmo.kosmofurniture.service.MapMarkerService;
 import com.kosmo.kosmofurniture.service.MemberService;
@@ -15,6 +16,7 @@ import com.kosmo.kosmofurniture.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,7 @@ public class AdminController {
     private final ProductMapper productMapper;
     private final NoticeMapper noticeMapper;
     private final FAQMapper faqMapper;
+    private final ServiceBoardMapper serviceboardMapper;
     private final ProductImageService productImageService;
     private final ProductService productService;
     private final MapMarkerService mapMarkerService;
@@ -240,7 +243,7 @@ public class AdminController {
     
     
     /**
-     * 공지등록 뷰페이지
+     * 공지 뷰페이지
      */
     @GetMapping("/notice")
     public ModelAndView noticeView(HttpServletRequest request) {
@@ -264,7 +267,7 @@ public class AdminController {
     
     
     /**
-     * 공지등록 페이지
+     * 공지등록 뷰페이지
      */
     @GetMapping("/notice-write")
     public ModelAndView noticeForm(HttpServletRequest request) {
@@ -274,7 +277,7 @@ public class AdminController {
     }
     
     /**
-     * 공지사항 뷰페이지
+     * 공지사항 상세보기 페이지
      */
     @GetMapping("/notice/{noticeId}")
     public ModelAndView showNotice(@PathVariable Long noticeId, HttpServletRequest request) {
@@ -332,7 +335,7 @@ public class AdminController {
     
     
     /**
-     * faq 등록 뷰페이지
+     * faq 뷰페이지
      */
     @GetMapping("/faq")
     public ModelAndView faqView(HttpServletRequest request) {
@@ -345,6 +348,7 @@ public class AdminController {
     	
     	return mav;
     }
+    
     @PostMapping("/faq")
     public ModelAndView addFAQ(FAQ faq) {
 
@@ -356,17 +360,19 @@ public class AdminController {
     
     
     /**
-     * faq 등록 페이지
+     * faq 등록 뷰페이지
      */
     @GetMapping("/faq-write")
-    public ModelAndView faqForm(HttpServletRequest request) {
-    	ModelAndView mav = new ModelAndView("admin/faq_write");
+    public ModelAndView faqForm(HttpServletRequest request, @AuthenticationPrincipal MemberPrincipal principal) {
     	
+    	log.debug("principal : {}", principal);
+    	ModelAndView mav = new ModelAndView("admin/faq_write");
+    	mav.addObject("principal", principal);
     	return mav;
     }
     
     /**
-     * faq 뷰페이지
+     * faq 상세보기 페이지
      */
     @GetMapping("/faq/{faqId}")
     public ModelAndView showFAQ(@PathVariable Long faqId, HttpServletRequest request) {
@@ -416,6 +422,101 @@ public class AdminController {
 
         log.debug("Controller : DELETE admin/faq/{faqId}/delete");
         faqMapper.deleteById(faqId);
+
+        return ResponseEntity.ok().body("{\"isDeleted\" : \"" + "true" + "\"}");
+    }
+    
+    
+    
+    
+    /**
+     * 고객질문 뷰페이지
+     */
+    @GetMapping("/serviceboard")
+    public ModelAndView serviceboardView(HttpServletRequest request) {
+    	ModelAndView mav = new ModelAndView("admin/serviceboard");
+    	
+    	PageHelper.startPage(request);
+    	PageInfo<ServiceBoard> pageInfo = PageInfo.of(serviceboardMapper.findAll());
+    	mav.addObject("pageInfo", pageInfo);
+    	mav.addObject("serviceboardList", pageInfo.getList());
+    	
+    	return mav;
+    }
+    
+    @PostMapping("/serviceboard")
+    public ModelAndView addServiceBoard(ServiceBoard serviceboard) {
+
+    	serviceboard.setCreatedAt(LocalDateTime.now());
+    	serviceboardMapper.save(serviceboard);
+
+        return new ModelAndView("redirect:/admin/serviceboard?pageNum=1&pageSize=5");
+    }
+  
+    
+    /**
+     * 고객질문 등록 뷰페이지
+     */
+    @GetMapping("/serviceboard-write")
+    public ModelAndView ServiceBoardForm(HttpServletRequest request, @AuthenticationPrincipal MemberPrincipal principal) {
+    	
+    	log.debug("principal : {}", principal);
+    	ModelAndView mav = new ModelAndView("admin/serviceboard_write");
+    	mav.addObject("principal", principal);
+    	return mav;
+    }
+    
+    /**
+     * 고객질문 상세보기 페이지
+     */
+    @GetMapping("/serviceboard/{serviceboardId}")
+    public ModelAndView showServiceBoard(@PathVariable Long serviceboardId, HttpServletRequest request) {
+
+        ModelAndView mav = new ModelAndView("admin/serviceboard_view");
+
+        String referer = request.getHeader("REFERER");
+
+        log.debug(referer);
+
+        ServiceBoard serviceboard = serviceboardMapper.findById(serviceboardId);
+        mav.addObject("serviceboard", serviceboard);
+
+        return mav;
+    }
+    
+    /**
+     * 고객질문 수정 뷰페이지
+     */
+    @GetMapping("serviceboard/{serviceboardId}/update")
+    public ModelAndView editServiceBoardView(@PathVariable Long serviceboardId, HttpServletRequest request) {
+
+    	ServiceBoard serviceboard = serviceboardMapper.findById(serviceboardId);
+
+        ModelAndView mav = new ModelAndView("admin/serviceboard_update");
+        mav.addObject("serviceboard", serviceboard);
+
+        return mav;
+    }
+
+    /**
+     * 고객질문 수정 PUT 요청
+     */
+    @PutMapping("serviceboard/update")
+    public ResponseEntity<String> editServiceBoard(ServiceBoard serviceboard) {
+
+    	serviceboardMapper.update(serviceboard);
+
+        return ResponseEntity.ok().body("{\"isUpdated\" : \"" + "true" + "\"}");
+    }
+    
+    /**
+     * 고객질문 삭제 API
+     */
+    @DeleteMapping("/serviceboard/{serviceboardId}/delete")
+    public ResponseEntity<String> deleteServiceBoard(@PathVariable Long serviceboardId) {
+
+        log.debug("Controller : DELETE admin/serviceboard/{serviceboardId}/delete");
+        faqMapper.deleteById(serviceboardId);
 
         return ResponseEntity.ok().body("{\"isDeleted\" : \"" + "true" + "\"}");
     }

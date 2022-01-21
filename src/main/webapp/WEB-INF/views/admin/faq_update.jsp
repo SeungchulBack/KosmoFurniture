@@ -10,7 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
+
+
     <title>관리자 공지수정페이지</title>
+
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 </head>
 <body>
