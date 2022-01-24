@@ -55,18 +55,18 @@ function getData() {
 
 function logout() {
   sessionStorage.clear();
-  $('#login_button').css('visibility', 'visible');
-  $('#logout').css('visibility', 'hidden');
-  $('#welcome').empty();
+  $('#welcome').remove();
+  $('#login_button').css('display', '');
+  $('#logonUser').css('display', 'none');
 }
 
 function getMyInfo() {
   if (sessionStorage.getItem('kosmoJwt') != null) {
     var loginUser = parseJwt(sessionStorage.getItem('kosmoJwt'));
-    $('#login_button').css('visibility', 'hidden');
-    $('#logout').css('visibility', 'visible');
     $('#welcome').append(`<span>${loginUser.fullName}님</span>`);
-  }
+    $('#logonUser').css('display', '');
+    $('#login_button').css('display', 'none');
+  } else $('#logonUser').css('display', 'none');
 }
 
 function parseJwt(token) {
@@ -118,7 +118,7 @@ function buildProducts(data) {
     var fileName =
       data[i].productImage == null ? '' : data[i].productImage.dbFileName;
     var row = ` <div class="pro">
-          <img src="http://localhost:8484/files/${fileName}" alt="" />
+          <img class="img-box" src="http://localhost:8484/files/${fileName}" alt="" />
           <div class="info">
             <h5>${data[i].name}</h5>
             <div class="star">
