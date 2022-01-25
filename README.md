@@ -5,7 +5,7 @@ ddddddd
 
 ![image](https://user-images.githubusercontent.com/79554850/150905200-7d1ae5e8-f1b3-4f75-a6e2-a7dff4f9ea16.png)
 
-
+fdsfsdfsdfsdfsdf
 공들인 부분은 프론트서버와의 인증기능을 구현하기 위해 일반적인 session방식을 사용할수 없어서 JWT를 이용해서
 인증기능을 구현했습니다. 그 과정중에 JWT를 활용한 인증기능 을 구현하기 위해 Spring Security의 설정을 구성하는데에 시간을 많이 들였습니다.
 
