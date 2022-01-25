@@ -1,4 +1,4 @@
-# KosmoFurniture (진행중입니다. 2/17수료예정)
+# KosmoFurniture (진행중입니다. 2022 / 2 / 17 수료예정)
 
 김찬기, 백승철, 박상준 kosmoFurniture 팀프로젝트
 
