@@ -3,8 +3,7 @@
 김찬기, 백승철, 박상준 kosmoFurniture 팀프로젝트
 
 
-	
-![image](https://user-images.githubusercontent.com/79554850/150904914-0626dd58-1b25-4950-9678-88b75d8968a9.png)
+![image](https://user-images.githubusercontent.com/79554850/150905200-7d1ae5e8-f1b3-4f75-a6e2-a7dff4f9ea16.png)
 
 
 -
